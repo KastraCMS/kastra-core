@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Description>Library to build Kastra website</Description>
+    <ReleaseVersion>0.8.1</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <PackageVersion>0.8.3</PackageVersion>
+    <Authors>Baptiste Coppéré</Authors>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Owners>Baptiste Coppéré</Owners>
+    <PackageProjectUrl>http://www.kastra.net</PackageProjectUrl>
+    <Summary>Library to build Kastra website</Summary>
+    <Title>Kastra.Core</Title>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>Kastra.Core</PackageId>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage>C#</NeutralLanguage>
+    <PackageTags>.NET, Core, CMS</PackageTags>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="DirectoryLoader.cs" />
+    <Compile Remove="Helpers\UrlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  </ItemGroup>
+</Project>
