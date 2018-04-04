@@ -9,17 +9,13 @@
 
 ## Installation
 
-* Install the nuget package in your .NET project
+Install the nuget package in your .NET project
 
-.NET CLI
-
-`$ dotnet add package kastra.core`
+* .NET CLI `$ dotnet add package kastra.core`
 
 or
 
-Nuget package manager
-
-`$ Install-Package kastra.core`
+* Nuget package manager `$ Install-Package kastra.core`
 
 ## Usage
 
@@ -34,7 +30,7 @@ In ConfigureServices method, you need to add :
 * Kastra dependancy injections
 * Kastra services
 
-Note that after creating your Kastra application settings, you need to load Kastra business, DAL and modules assemblies with the "DirectoryAssemblyLoader".
+Note that after creating your Kastra application settings, you need to load Kastra business, DAL and modules assemblies with the `DirectoryAssemblyLoader` static class.
 
 An example of ConfigureServices method could be :
 
@@ -49,16 +45,15 @@ services.Configure<AppSettings>(Configuration);
 DirectoryAssemblyLoader.LoadAllAssemblies(appSettings);
 
 // Add dependencies
-var assemblies = KastraAssembliesContext.Instance.Assemblies;
-services.AddDependencyInjection(Configuration, assemblies.Values.ToArray());
+var assemblies = KastraAssembliesContext.Instance.Assemblies.Values.ToArray();
+services.AddDependencyInjection(Configuration, assemblies);
 
 // Add Kastra default services
 services.AddKastraServices();
 
 services.AddMvc();
 ```
-
-### In a controller to make a template controller
+### Make a template controller
 
 If you want to use the default template controller, your controller must derive from TemplateController which is available in the Kastra.Core.Controllers namespace.
 
@@ -84,6 +79,60 @@ namespace Kastra.Web.Controllers
 }
 ```
 
-### In a view compoenent to make a module
+### Declare a module
+
+You need to add a class which derives from ModuleBase class available in the Kastra.Core namespace.
+The install method of the ModuleBase class will install automatically the module data in your website. These data must be in a fil named `moduleconfig.json`.
+
+An example could be :
+
+*ArticleModule.cs*
+```C#
+public class ArticleModule : ModuleBase
+{
+    public override void SetDependencyInjections(IServiceCollection services, IConfiguration configuration)
+    {
+        // Add services or dependancy injections
+    }
+
+    public override void Install(IServiceProvider serviceProvider, IViewManager viewManager)
+    {
+        base.Install(serviceProvider, viewManager);
+
+         // Add your specific code to install your module
+    }
+
+    public override void Uninstall()
+    {
+        // Add your specific code to uninstall your module
+    }
+}
+```
+
+*moduleconfig.json*
+```Json
+{
+	"Modules": [{
+		"Definition": {
+			"SystemName": "Article",
+			"DisplayName": "Article",
+			"Namespace": "Kastra.Module.Article",
+			"Path": "Default/Article",
+			"Version": "1.0"
+		},
+		"Controls": [{
+				"KeyName": "Settings",
+				"Path": "Settings"
+			},
+			{
+				"KeyName": "Edit",
+				"Path": "Edit"
+			}
+		]
+	}]
+}
+```
+
+### Make a module view component in a module
 
 ... Work in progress ...
