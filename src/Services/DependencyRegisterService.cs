@@ -25,15 +25,23 @@ namespace Kastra.Core
         public static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
         {
             IDependencyRegister dependancyRegister = null;
+            Type type = null;
             Type serviceType = typeof(IDependencyRegister);
 
-            IEnumerable<Type> assembliesToRegister = assemblies.SelectMany(assembly => assembly.GetTypes())
-                                                 .Where(type => serviceType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract);
-
-            foreach (Type implementationType in assembliesToRegister)
+            for (int i = 0; i < assemblies.Length; i++)
             {
-                dependancyRegister = Activator.CreateInstance(implementationType) as IDependencyRegister;
-                dependancyRegister.SetDependencyInjections(services, configuration);
+                Type[] types = assemblies[i].GetTypes();
+
+                for (int j = 0; j < types.Length; j++)
+                {
+                    type = types[j];
+
+                    if(serviceType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract)
+                    {
+                        dependancyRegister = Activator.CreateInstance(type) as IDependencyRegister;
+                        dependancyRegister.SetDependencyInjections(services, configuration);
+                    }
+                }
             }
         }
 
@@ -43,11 +51,11 @@ namespace Kastra.Core
         /// <param name="mvcBuilder">Mvc builder.</param>
         public static void AddApplicationParts(this IMvcBuilder mvcBuilder)
         {
-            var assemblies = KastraAssembliesContext.Instance.GetModuleAssemblies();
+            IList<Assembly> assemblies = KastraAssembliesContext.Instance.GetModuleAssemblies();
 
-            foreach (Assembly assembly in assemblies)
+            for (int i = 0; i < assemblies.Count; i++)
             {
-                mvcBuilder.AddApplicationPart(assembly);
+                mvcBuilder.AddApplicationPart(assemblies[i]);
             }
         }
 
