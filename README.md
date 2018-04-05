@@ -9,13 +9,13 @@
 
 ## Installation
 
-Install the nuget package in your .NET project
+Install the [Kastra.Core nuget package](https://www.nuget.org/packages/Kastra.Core/) in your .NET project
 
-* .NET CLI `$ dotnet add package kastra.core`
+* .NET CLI : `$ dotnet add package kastra.core`
 
 or
 
-* Nuget package manager `$ Install-Package kastra.core`
+* Nuget package manager : `$ Install-Package kastra.core`
 
 ## Usage
 
@@ -135,4 +135,51 @@ public class ArticleModule : ModuleBase
 
 ### Make a module view component in a module
 
-... Work in progress ...
+To make a view component module, you can use the `Kastra.Core.ViewComponents` namespace. Your view component must derive from `ModuleViewComponent` class. You can use a model which must derive from `ModuleModelBinder` class.
+
+An example could be :
+
+*IndexViewComponent.cs*
+
+```C#
+namespace Kastra.Module.Article
+{
+    [ViewComponent(Name = "Kastra.Module.Article.Index")]
+    public class IndexViewComponent : ModuleViewComponent
+    {
+        private readonly ArticleContext _dbContext = null;
+        private readonly IArticleBusiness _articleManager = null;
+
+        public ArticleViewComponent(ArticleContext dbContext, IArticleBusiness articleBusiness)
+        {
+            _dbContext = dbContext;
+            _articleManager = articleBusiness;
+        }
+        
+        public override ViewViewComponentResult OnViewComponentLoad()
+        {
+            IndexModel model = new IndexModel(this);
+            
+            // Fill the model or do other thing here ...
+
+            return ModuleView("Index", model);
+        }
+    }
+}
+```
+
+*IndexModel.cs*
+
+```C#
+namespace Kastra.Module.Article.Models
+{
+    public class IndexModel: ModuleModelBinder
+    {
+        public IndexModel(ModuleViewComponent moduleView) : base(moduleView) { }
+
+        public IList<ArticleInfo> Articles { get; set; }
+
+        public Int32 PageId { get; set; }
+    }
+}
+```
