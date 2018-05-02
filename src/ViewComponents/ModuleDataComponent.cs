@@ -5,6 +5,7 @@
  */
 
 using System.Collections.Generic;
+using Kastra.Core.Dto;
 using Kastra.Core.Services;
 
 namespace Kastra.Core.ViewComponents

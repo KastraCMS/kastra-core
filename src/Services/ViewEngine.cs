@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Kastra.Core.Dto;
 using Kastra.Core.ViewComponents;
 
 namespace Kastra.Core.Services

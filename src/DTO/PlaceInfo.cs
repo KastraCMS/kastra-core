@@ -6,7 +6,7 @@
 
 using System.Collections.Generic;
 
-namespace Kastra.Core
+namespace Kastra.Core.Dto
 {
 	public class PlaceInfo
 	{
