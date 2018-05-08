@@ -4,6 +4,7 @@
  * the license and the contributors participating to this project.
  */
 
+using System;
 using System.Threading.Tasks;
 using Kastra.Core.ViewComponents;
 using Microsoft.AspNetCore.Html;
@@ -14,7 +15,7 @@ namespace Kastra.Core.Helpers
     public class ModuleViewComponentHelper : IModuleViewComponentHelper
     {
         public readonly IViewComponentHelper _viewComponentHelper;
-
+        
         public ModuleViewComponentHelper(IViewComponentHelper viewComponentHelper)
         {
             _viewComponentHelper = viewComponentHelper;
@@ -22,7 +23,12 @@ namespace Kastra.Core.Helpers
 
         public Task<IHtmlContent> InvokeAsync(ModuleDataComponent moduleData)
         {
-            return _viewComponentHelper.InvokeAsync(moduleData.ModuleViewComponent, new { data = moduleData });                              
+			if (moduleData != null && !String.IsNullOrEmpty(moduleData.ModuleViewComponent))
+			{
+				return _viewComponentHelper.InvokeAsync(moduleData.ModuleViewComponent, new { data = moduleData });
+			}
+
+		    return Task.FromResult<IHtmlContent>(null);                        
         }
     }
 }
