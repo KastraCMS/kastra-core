@@ -14,9 +14,11 @@ namespace Kastra.Core
         public AppSettings()
         {
             Configuration = new Configuration();
+			Cors = new Cors();
         }
 
         public Configuration Configuration { get; set; }
+		public Cors Cors { get; set; }
     }
 
     public class Configuration
@@ -25,4 +27,11 @@ namespace Kastra.Core
         public string DALDllPath { get; set; }
         public string ModuleDirectoryPath { get; set; } = Constants.ModuleConfig.ModuleRootDirectory;
     }
+
+    public class Cors
+	{
+        public bool EnableCors { get; set; }
+		public bool AllowAnyOrigin { get; set; }
+		public string Origins { get; set; }
+	}
 }
