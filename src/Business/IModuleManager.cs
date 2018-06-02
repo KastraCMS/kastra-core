@@ -4,6 +4,8 @@
  * the license and the contributors participating to this project.
  */
 
+using System.Reflection;
+
 namespace Kastra.Core.Business
 {
     public interface IModuleManager
@@ -17,5 +19,17 @@ namespace Kastra.Core.Business
         /// Uninstalls the modules.
         /// </summary>
         void UninstallModules();
+
+        /// <summary>
+        /// Installs the module.
+        /// </summary>
+        /// <param name="assembly">Assembly.</param>
+        void InstallModule(Assembly assembly);
+
+        /// <summary>
+        /// Uninstalls the module.
+        /// </summary>
+        /// <param name="assembly">Assembly.</param>
+        void UninstallModule(Assembly assembly);
     }
 }
