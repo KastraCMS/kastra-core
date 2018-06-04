@@ -7,7 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Kastra.Core.Business;
 
 namespace Kastra.Core
 {
@@ -67,7 +66,7 @@ namespace Kastra.Core
         /// <returns>The module assemblies.</returns>
         public IList<Assembly> GetModuleAssemblies()
         {
-            Type moduleType = typeof(IModuleManager);
+            Type moduleType = typeof(IModuleRegister);
             IList<Assembly> assemblies = new List<Assembly>(_assemblies.Count);
 
             foreach(Assembly assembly in _assemblies.Values)
