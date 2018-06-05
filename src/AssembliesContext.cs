@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Kastra.Core
@@ -71,9 +72,9 @@ namespace Kastra.Core
 
             foreach(Assembly assembly in _assemblies.Values)
             {
-                foreach(Type type in assembly.GetTypes())
+                foreach (TypeInfo typeInfo in assembly.DefinedTypes)
                 {
-                    if(type == moduleType)
+                    if (typeInfo.ImplementedInterfaces.Contains(moduleType))
                     {
                         assemblies.Add(assembly);
                         break;
@@ -93,14 +94,19 @@ namespace Kastra.Core
 		{
 			Type type = Type.GetType(typeName);
 
-			if (type != null) 
+			if (type != null)
+            {
                 return type;
+            }
             
             foreach (var a in _assemblies.Values)
 			{
 				type = a.GetType(typeName);
+
 				if (type != null)
-					return type;
+                {
+                    return type;
+                }
 			}
 
 			return null;
