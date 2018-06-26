@@ -7,6 +7,13 @@ namespace Kastra.Core.Business
     public interface IStatisticsManager
     {
         /// <summary>
+        /// Saves the visitor.
+        /// </summary>
+        /// <returns><c>true</c>, if visitor was saved, <c>false</c> otherwise.</returns>
+        /// <param name="visitor">Visitor.</param>
+        bool SaveVisitor(VisitorInfo visitor);
+
+        /// <summary>
         /// Counts the visits in a period.
         /// </summary>
         /// <returns>The visits from to.</returns>
@@ -24,8 +31,8 @@ namespace Kastra.Core.Business
         /// <summary>
         /// Gets the visits from date.
         /// </summary>
-        /// <returns>The visits from date.</returns>
+        /// <returns>The visits from a date to a date</returns>
         /// <param name="fromDate">From date.</param>
-        IList<VisitorInfo> GetVisitsFromDate(DateTime fromDate);
+        IList<VisitorInfo> GetVisitsFromDate(DateTime fromDate, DateTime toDate);
     }
 }
