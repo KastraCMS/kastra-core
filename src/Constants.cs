@@ -15,6 +15,7 @@ namespace Kastra.Core
             public const string DefaultPageTemplatePath  = "Kastra.Web.Models.Template";
             public const string DefaultModulesPath = "~/Modules/";
             public const string DefaultModuleViewName = "Index";
+            public const string DefaultModuleResourcesPath = "mres";
             public const string SiteConfigCacheKey = "SiteConfig";   
         }
 
