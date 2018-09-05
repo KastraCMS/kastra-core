@@ -25,7 +25,7 @@ namespace Kastra.Core
                 app.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), moduleDirectoryPath, moduleDefinition.Path, "res")),
-                    RequestPath = Path.Combine(virtualModuleDirectoryPath, moduleDefinition.KeyName)
+                    RequestPath = Path.Combine($"/{virtualModuleDirectoryPath}", moduleDefinition.KeyName)
                 });
             }
 
