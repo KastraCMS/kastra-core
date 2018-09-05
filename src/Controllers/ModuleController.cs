@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+ * See https://github.com/KastraCMS/kastra-core for more information concerning
+ * the license and the contributors participating to this project.
+ */
+
 using System.Linq;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
@@ -8,6 +13,8 @@ namespace Kastra.Core.Controllers
 {
     public class ModuleController : Controller
     {
+        #region Properties
+
         public ModuleDefinitionInfo ModuleDefinition
         { 
             get
@@ -23,9 +30,9 @@ namespace Kastra.Core.Controllers
         }
 
         private ModuleDefinitionInfo _moduleDefinition = null;
+        private readonly IViewManager _viewManager = null;
 
-        private IViewManager _viewManager = null;
-
+        #endregion
 
         public ModuleController(IViewManager viewManager)
         {
