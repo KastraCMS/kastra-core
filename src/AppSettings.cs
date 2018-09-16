@@ -26,6 +26,7 @@ namespace Kastra.Core
         public string BusinessDllPath { get; set; }
         public string DALDllPath { get; set; }
         public string ModuleDirectoryPath { get; set; } = Constants.ModuleConfig.ModuleRootDirectory;
+        public bool EnableDatabaseUpdate { get; set; }
     }
 
     public class Cors
