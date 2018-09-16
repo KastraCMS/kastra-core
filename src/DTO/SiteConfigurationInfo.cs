@@ -15,7 +15,8 @@ namespace Kastra.Core.Dto
         public string SmtpHost { get; set; }
         public int SmtpPort { get; set; }
         public bool SmtpEnableSsl { get; set; }
-        public string StmpCredentialsUser { get; set; }
+        public string SmtpCredentialsUser { get; set; }
         public string SmtpCredentialsPassword { get; set; }
+        public string EmailSender { get; set; }
     }
 }
