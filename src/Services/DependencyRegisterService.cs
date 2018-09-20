@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Kastra.Core.Services;
+using Kastra.Core.Business;
+using Kastra.Core.Dto;
+using Microsoft.AspNetCore.Identity;
 
 namespace Kastra.Core
 {
@@ -67,6 +70,26 @@ namespace Kastra.Core
         {
             services.AddSingleton<CacheEngine>();
             services.AddScoped<ViewEngine>();
+        }
+
+        /// <summary>
+        /// Configures the kastra options.
+        /// </summary>
+        /// <param name="services">Services.</param>
+        public static void ConfigureKastraOptions(this IServiceCollection services)
+        {
+            // Get site configuration
+            using (ServiceProvider serviceProvider = services.BuildServiceProvider())
+            {
+                IParameterManager parameterManager = serviceProvider.GetService<IParameterManager>();
+                SiteConfigurationInfo siteConfiguration = parameterManager.GetSiteConfiguration();
+
+                // Set configuration in identity options
+                services.Configure<IdentityOptions>(options =>
+                {
+                    options.SignIn.RequireConfirmedEmail = siteConfiguration.RequireConfirmedEmail;
+                });
+            }
         }
     }
 }
