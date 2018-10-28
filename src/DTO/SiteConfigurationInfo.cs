@@ -73,5 +73,11 @@ namespace Kastra.Core.Dto
         /// </summary>
         /// <value><c>true</c> if require confirmed email; otherwise, <c>false</c>.</value>
         public bool RequireConfirmedEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the website theme.
+        /// </summary>
+        /// <value>The theme</value>
+        public string Theme { get; set; }
     }
 }
