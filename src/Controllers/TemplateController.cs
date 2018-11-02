@@ -90,6 +90,9 @@ namespace Kastra.Core.Controllers
 			// Set page title
             ViewBag.Title = String.IsNullOrEmpty(page.Title) ? siteConfiguration.Title : page.Title;
 
+            // Set theme
+            ViewBag.Theme = siteConfiguration.Theme ?? Constants.SiteConfig.DefaultTheme;
+
             // Set page SEO
             ViewBag.MetaDescription = String.IsNullOrEmpty(page.MetaDescription) ? siteConfiguration.Description : page.MetaDescription;
             ViewBag.MetaKeywords = page.MetaKeywords;
