@@ -19,7 +19,10 @@ namespace Kastra.Core.Dto
 		public int PageTemplateId { get; set; }
 		public string KeyName { get; set; }
 
+		public int? ModuleId { get; set; }
+
 		public IList<ModuleInfo> Modules { get; set; }
 		public TemplateInfo Template { get; set; }
+		public ModuleInfo StaticModule { get; set; }
 	}
 }

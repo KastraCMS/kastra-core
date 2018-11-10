@@ -95,7 +95,15 @@ namespace Kastra.Core.Services
                     continue;
                 }
 
-                module = place.Modules.SingleOrDefault(m => m.PlaceId == place.PlaceId && m.PageId == _page.PageId);
+                // If place has a static module
+                if(place.ModuleId != null)
+                {
+                    module = place.StaticModule;
+                }
+                else
+                {
+                    module = place.Modules.SingleOrDefault(m => m.PlaceId == place.PlaceId && m.PageId == _page.PageId);
+                }
 
                 if(module == null)
                 {
