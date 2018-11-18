@@ -4,6 +4,8 @@
  * the license and the contributors participating to this project.
  */
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Kastra.Core.Dto
 {
     public class SiteConfigurationInfo
@@ -78,6 +80,137 @@ namespace Kastra.Core.Dto
         /// Gets or sets the website theme.
         /// </summary>
         /// <value>The theme</value>
-        public string Theme { get; set; }
+        public string Theme { get; set; } = Constants.SiteConfig.DefaultTheme;
+
+        #region Password
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user password
+        /// require digit.
+        /// </summary>
+        /// <value><c>true</c> if password require digit; otherwise, <c>false</c>.</value>
+        public bool PasswordRequireDigit { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user password
+        /// require lowercase.
+        /// </summary>
+        /// <value><c>true</c> if password require lowercase; otherwise, <c>false</c>.</value>
+        public bool PasswordRequireLowercase { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user password
+        /// require non alphanumeric.
+        /// </summary>
+        /// <value><c>true</c> if password require non alphanumeric; otherwise, <c>false</c>.</value>
+        public bool PasswordRequireNonAlphanumeric { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user password
+        /// require uppercase.
+        /// </summary>
+        /// <value><c>true</c> if password require uppercase; otherwise, <c>false</c>.</value>
+        public bool PasswordRequireUppercase { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the length of the password required.
+        /// </summary>
+        /// <value>The length of the password required.</value>
+        public int PasswordRequiredLength { get; set; } = 6;
+
+        /// <summary>
+        /// Gets or sets the number of distinct characters in the password.
+        /// </summary>
+        /// <value>The password required unique chars.</value>
+        public int PasswordRequiredUniqueChars { get; set; } = 1;
+
+        #endregion
+
+        #region User
+
+        /// <summary>
+        /// Gets or sets the user allowed user name characters.
+        /// </summary>
+        /// <value>The user allowed user name characters.</value>
+        public string UserAllowedUserNameCharacters { get; set; } = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user
+        /// require unique email.
+        /// </summary>
+        /// <value><c>true</c> if user require unique email; otherwise, <c>false</c>.</value>
+        public bool UserRequireUniqueEmail { get; set; } = true;
+
+        #endregion
+
+        #region Cookie
+
+        /// <summary>
+        /// Gets or sets the access denied path.
+        /// </summary>
+        /// <value>The access denied path.</value>
+        public string AccessDeniedPath { get; set; } = "/Account/AccessDenied";
+
+        /// <summary>
+        /// Gets or sets the name of the cookie.
+        /// </summary>
+        /// <value>The name of the cookie.</value>
+        public string CookieName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the cookie is
+        /// http only.
+        /// </summary>
+        /// <value><c>true</c> if cookie http only; otherwise, <c>false</c>.</value>
+        public bool CookieHttpOnly { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the expire time span in minutes.
+        /// </summary>
+        /// <value>The expire time span minutes.</value>
+        public int ExpireTimeSpanMinutes { get; set; } = 60;
+
+        /// <summary>
+        /// Gets or sets the login path.
+        /// </summary>
+        /// <value>The login path.</value>
+        public string LoginPath { get; set; } = "/Account/Login";
+
+        /// <summary>
+        /// Gets or sets the return URL parameter.
+        /// </summary>
+        /// <value>The return URL parameter.</value>
+        public string ReturnUrlParameter { get; set; } = CookieAuthenticationDefaults.ReturnUrlParameter;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the cookie has a sliding expiration.
+        /// </summary>
+        /// <value><c>true</c> if sliding expiration; otherwise, <c>false</c>.</value>
+        public bool SlidingExpiration { get; set; } = true;
+
+        #endregion
+
+        #region Lockout settings
+
+        /// <summary>
+        /// Gets or sets the amount of time a user is locked out when a lockout occurs.
+        /// </summary>
+        /// <value>The default lockout time span in minutes.</value>
+        public int DefaultLockoutTimeSpanInMinutes { get; set; } = 5;
+
+        /// <summary>
+        /// Gets or sets the lockout max failed access attempts.
+        /// </summary>
+        /// <value>The lockout max failed access attempts.</value>
+        public int LockoutMaxFailedAccessAttempts { get; set; } = 5;
+
+        /// <summary>
+        /// Determines if a new user can be locked out.
+        /// </summary>
+        /// <value><c>true</c> if lockout allowed for new users; otherwise, <c>false</c>.</value>
+        public bool LockoutAllowedForNewUsers { get; set; } = true;
+
+        #endregion
     }
 }
