@@ -20,6 +20,7 @@ namespace Kastra.Core.Dto
 		public int PlaceId { get; set; }
 		public int PageId { get; set; }
 		public string Name { get; set; }
+		public bool IsDisabled { get; set; }
 
 		public IList<ModulePermissionInfo> ModulePermissions { get; set; }
 		public ModuleDefinitionInfo ModuleDefinition { get; set; }
