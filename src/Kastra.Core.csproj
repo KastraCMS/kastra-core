@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
     <ReleaseVersion>0.9.9</ReleaseVersion>
     <VersionPrefix>0.9.9</VersionPrefix>
@@ -20,6 +20,7 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <NeutralLanguage>C#</NeutralLanguage>
     <PackageTags>.NET, Core, CMS</PackageTags>
+    <PackageIconUrl>https://www.kastra.net/images/logo.svg</PackageIconUrl>
   </PropertyGroup>
 	
   <ItemGroup>
@@ -31,6 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
   </ItemGroup>
 </Project>
