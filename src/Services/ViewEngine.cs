@@ -95,12 +95,7 @@ namespace Kastra.Core.Services
                     continue;
                 }
 
-                module = place.Modules?.SingleOrDefault(m => m.PlaceId == place.PlaceId && m.PageId == _page.PageId);
-
-                if(module != null && module.IsDisabled)
-                {
-                    module = null;
-                }
+                module = place.Modules?.SingleOrDefault(m => !m.IsDisabled && m.PlaceId == place.PlaceId && m.PageId == _page.PageId);
 
                 // If there is not a module and if the place has a static module
                 if (module == null && place.StaticModule != null && !place.StaticModule.IsDisabled)
