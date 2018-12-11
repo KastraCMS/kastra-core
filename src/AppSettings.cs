@@ -19,7 +19,6 @@ namespace Kastra.Core
 
         public Configuration Configuration { get; set; }
 		public Cors Cors { get; set; }
-        public Cookies Cookies { get; set; }
     }
 
     public class Configuration
