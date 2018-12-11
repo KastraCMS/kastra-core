@@ -19,10 +19,12 @@ namespace Kastra.Core
 
         public Configuration Configuration { get; set; }
 		public Cors Cors { get; set; }
+        public Cookies Cookies { get; set; }
     }
 
     public class Configuration
     {
+        public bool DevelopmentMode { get; set; }
         public string BusinessDllPath { get; set; }
         public string DALDllPath { get; set; }
         public string ModuleDirectoryPath { get; set; } = Constants.ModuleConfig.ModuleRootDirectory;
