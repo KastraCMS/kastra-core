@@ -20,13 +20,20 @@ namespace Kastra.Core
             string moduleDirectoryPath, 
             string virtualModuleDirectoryPath = Constants.SiteConfig.DefaultModuleResourcesPath)
         {
+            string path = null;
+
             foreach (ModuleDefinitionInfo moduleDefinition in viewManager.GetModuleDefsList())
             {
-                app.UseStaticFiles(new StaticFileOptions
+                path = Path.Combine(Directory.GetCurrentDirectory(), moduleDirectoryPath, moduleDefinition.Path, "res");
+
+                if (Directory.Exists(path))
                 {
-                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), moduleDirectoryPath, moduleDefinition.Path, "res")),
-                    RequestPath = Path.Combine($"/{virtualModuleDirectoryPath}", moduleDefinition.KeyName)
-                });
+                    app.UseStaticFiles(new StaticFileOptions
+                    {
+                        FileProvider = new PhysicalFileProvider(path),
+                        RequestPath = Path.Combine($"/{virtualModuleDirectoryPath}", moduleDefinition.KeyName)
+                    });
+                }
             }
 
             return app;
