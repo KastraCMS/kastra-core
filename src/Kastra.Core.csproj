@@ -9,7 +9,7 @@
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <PackageVersion>0.9.12</PackageVersion>
     <Authors>Baptiste Coppéré</Authors>
-    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Baptiste Coppéré</Owners>
     <PackageProjectUrl>http://www.kastra.net</PackageProjectUrl>
