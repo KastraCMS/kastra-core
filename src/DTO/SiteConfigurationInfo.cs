@@ -189,6 +189,24 @@ namespace Kastra.Core.Dto
         /// <value><c>true</c> if sliding expiration; otherwise, <c>false</c>.</value>
         public bool SlidingExpiration { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the consent is mandatory to use cookies
+        /// </summary>
+        /// <value></value>
+        public bool CheckConsentNeeded { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the consent notice text for the cookies
+        /// </summary>
+        /// <value></value>
+        public string ConsentNotice { get; set; }
+
+        /// <summary>
+        /// Gets or sets the url for the cookie use policy
+        /// </summary>
+        /// <value></value>
+        public string CookieUsePolicyUrl { get; set; }
+
         #endregion
 
         #region Lockout settings
