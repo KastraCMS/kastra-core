@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
-    <ReleaseVersion>0.9.11</ReleaseVersion>
-    <VersionPrefix>0.9.11</VersionPrefix>
+    <ReleaseVersion>0.9.12</ReleaseVersion>
+    <VersionPrefix>0.9.12</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <PackageVersion>0.9.11</PackageVersion>
+    <PackageVersion>0.9.12</PackageVersion>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
