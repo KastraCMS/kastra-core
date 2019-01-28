@@ -14,6 +14,8 @@ using Kastra.Core.Services;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Kastra.Core
 {
@@ -88,6 +90,13 @@ namespace Kastra.Core
                 services.Configure<IdentityOptions>(options =>
                 {
                     options.SignIn.RequireConfirmedEmail = siteConfiguration.RequireConfirmedEmail;
+                });
+
+                // Set cookie configuration
+                services.Configure<CookiePolicyOptions>(options =>
+                {
+                    options.CheckConsentNeeded = context => siteConfiguration.CheckConsentNeeded;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
             }
         }
