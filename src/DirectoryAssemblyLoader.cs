@@ -24,11 +24,29 @@ namespace Kastra.Core
         /// <param name="appSettings">App settings.</param>
         public static void LoadAllAssemblies(AppSettings appSettings)
         {
+            int nbModules = 0;
             Assembly assembly = null;
             List<string> dllPaths = null;
-            List<string> moduleDllPaths = GetModulePaths(appSettings.Configuration.ModuleDirectoryPath).ToList();
+            List<string> moduleDllPaths = null;
 
-            dllPaths = new List<string>(moduleDllPaths.Count + 2);
+            if (appSettings == null)
+            {
+                throw new ArgumentNullException(nameof(appSettings));
+            }
+
+            if (appSettings.Configuration == null)
+            {
+                throw new NullReferenceException(nameof(appSettings.Configuration));
+            }
+
+            moduleDllPaths = GetModulePaths(appSettings.Configuration.ModuleDirectoryPath)?.ToList();
+
+            if (moduleDllPaths != null)
+            {
+                nbModules = moduleDllPaths.Count;
+            }
+
+            dllPaths = new List<string>(nbModules + 2);
             dllPaths.Add($"{_rootPath}/{appSettings.Configuration.BusinessDllPath}");
             dllPaths.Add($"{_rootPath}/{appSettings.Configuration.DALDllPath}");
             dllPaths.AddRange(moduleDllPaths);
