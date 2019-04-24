@@ -17,7 +17,8 @@ namespace Kastra.Core
             public const string DefaultModuleViewName = "Index";
             public const string DefaultModuleResourcesPath = "mres";
             public const string SiteConfigCacheKey = "SiteConfig";
-            public const string DefaultTheme = "default";   
+            public const string DefaultTheme = "default";
+            public const string DefaultFileDirectoryPath = "~/Data/";   
         }
 
         public class ModuleConfig
