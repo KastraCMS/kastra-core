@@ -73,11 +73,11 @@ namespace Kastra.Core.Services
                 return model;
             }
 
-            type = KastraAssembliesContext.Instance.GetType($"{template.Path}.{template.KeyName}ViewModel");
+            type = KastraAssembliesContext.Instance.GetType(template.ModelClass);
 
             if (type == null)
             {
-                throw new NullReferenceException($"Invalid template path for {template.Path}.{template.KeyName}ViewModel");
+                throw new NullReferenceException($"Invalid template path for {template.ModelClass}");
             }
 
             model = Activator.CreateInstance(type);

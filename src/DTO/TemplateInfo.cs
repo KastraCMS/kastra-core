@@ -19,7 +19,8 @@ namespace Kastra.Core.Dto
 		public int TemplateId { get; set; }
 		public string KeyName { get; set; }
 		public string Name { get; set; }
-		public string Path { get; set; }
+		public string ViewPath { get; set; }
+		public string ModelClass { get; set; }
 
 		public IList<PageInfo> Pages { get; set; }
 		public IList<PlaceInfo> Places { get; set; }
