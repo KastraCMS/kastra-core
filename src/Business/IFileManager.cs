@@ -12,14 +12,38 @@ namespace Kastra.Core.Business
 {
     public interface IFileManager
     {
+        /// <summary>
+        /// Add a file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="stream"></param>
         void AddFile(FileInfo file, System.IO.Stream stream);
 
-        void DownloadFileByGuid(Guid fileId);
+        /// <summary>
+        /// Get the binary of a file
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
+        byte[] DownloadFileByGuid(Guid fileId);
         
+        /// <summary>
+        /// Delete a file
+        /// </summary>
+        /// <param name="fileId"></param>
         void DeleteFile(Guid fileId);
         
+        /// <summary>
+        /// Get file informations
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
         FileInfo GetFile(Guid fileId);
 
+        /// <summary>
+        /// Get all files in a directory path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         IList<FileInfo> GetFilesByPath(string path);
     }
 }
