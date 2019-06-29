@@ -8,6 +8,24 @@ namespace Kastra.Core.Dto
     public class ApplicationUser : IdentityUser
     {
         /// <summary>
+        /// Gets or sets the firstname.
+        /// </summary>
+        /// <value></value>
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lastname.
+        /// </summary>
+        /// <value></value>
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the displayed name.
+        /// </summary>
+        /// <value></value>
+        public string DisplayedName { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when an user is created. 
         /// </summary>
         /// <value></value>
