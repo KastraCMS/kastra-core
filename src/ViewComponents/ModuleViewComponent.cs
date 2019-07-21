@@ -28,8 +28,6 @@ namespace Kastra.Core.ViewComponents
         public string Action { get { return _action; } }
 
         public CacheEngine CacheEngine { get { return _cacheEngine; } }
-
-
         
         #endregion
         
@@ -65,17 +63,20 @@ namespace Kastra.Core.ViewComponents
             switch(data.ModuleAction)
             {
                 case Constants.ModuleActions.Add:
-                    return OnViewComponentLoad();
+                    return await OnViewComponentLoad();
                 case Constants.ModuleActions.Update:
-                    return OnViewComponentUpdate();
+                    return await OnViewComponentUpdate();
                 case Constants.ModuleActions.Delete:
-                    return OnViewComponentDelete();
+                    return await OnViewComponentDelete();
                 default:
-                    return OnViewComponentLoad();
+                    return await OnViewComponentLoad();
             }
         }
 
-
+        /// <summary>
+        /// Returns a result which will render the default module view.
+        /// </summary>
+        /// <returns></returns>
         public ViewViewComponentResult ModuleView()
         {
             string viewPath = String.Format("{0}{1}/Views/{2}.cshtml",
@@ -84,6 +85,11 @@ namespace Kastra.Core.ViewComponents
             return View(viewPath);
         }
         
+        /// <summary>
+        /// Returns a result which will render the module view corresponding to a view name.
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <returns></returns>
         public ViewViewComponentResult ModuleView(string viewName)
         {
             string viewPath = String.Format("{0}{1}/Views/{2}.cshtml",
@@ -92,6 +98,13 @@ namespace Kastra.Core.ViewComponents
             return View(viewPath);
         }
         
+        /// <summary>
+        /// Returns a result which will render the module view filled by a model object. 
+        /// </summary>
+        /// <param name="viewName"></param>
+        /// <param name="model"></param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <returns></returns>
         public ViewViewComponentResult ModuleView<TModel> (string viewName, TModel model)
         {
             string viewPath = null;
@@ -106,69 +119,35 @@ namespace Kastra.Core.ViewComponents
             return View(viewPath, model);
         }
         
-        
-        public virtual ViewViewComponentResult OnViewComponentLoad()
-        {
-            return ModuleView();
-        }
-
-        public virtual ViewViewComponentResult OnViewComponentUpdate()
-        {
-            return ModuleView();
-        }
-
-        public virtual ViewViewComponentResult OnViewComponentDelete()
-        {
-            return ModuleView();
-        }
-
         /// <summary>
-        /// Loads the query string data in model objects.
+        /// Returns a result which will render the default component view.
         /// </summary>
-        private void LoadQueryString()
+        /// <returns></returns>
+        public virtual Task<ViewViewComponentResult> OnViewComponentLoad()
         {
-            string parameterValue = String.Empty;
-            object moduleComponent = (object)this;
-            ParameterAttribute parameterAttribute = null;
-            PropertyInfo[] properties = null;
-            string moduleParametersKey = String.Format(Constants.ModuleConfig.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
-
-            if(!_cacheEngine.GetCacheObject(moduleParametersKey, out properties))
-                properties = _cacheEngine.SetCacheObject(moduleParametersKey, moduleComponent.GetType().GetProperties());
-
-            if(properties == null)
-            {
-                return;
-            }
-                
-            // Select all properties which have parameterattributes
-            foreach(PropertyInfo property in properties)
-            {
-                if(!property.CanRead)
-                {
-                    continue;
-                }
-
-                parameterAttribute = property.GetCustomAttribute(typeof(ParameterAttribute), false) as ParameterAttribute;
-
-                if(parameterAttribute == null)
-                {
-                    continue;
-                }
-
-                parameterValue = HttpContext.Request.Query[parameterAttribute.Name];
-
-                if(String.IsNullOrEmpty(parameterValue))
-                {
-                    continue;
-                }
-
-                property.SetValue((object) this, Convert.ChangeType(parameterValue,property.PropertyType), (object[]) null);
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Hase the required claim.
+        /// Returns a result which will render the module view for an update action.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task<ViewViewComponentResult> OnViewComponentUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns a result which will render the module view for a delete action.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task<ViewViewComponentResult> OnViewComponentDelete()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Has the required claim.
         /// </summary>
         /// <returns><c>true</c>, if required claim was hased, <c>false</c> otherwise.</returns>
         public Boolean HasRequiredClaim()
@@ -239,6 +218,51 @@ namespace Kastra.Core.ViewComponents
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Loads the query string data in model objects.
+        /// </summary>
+        private void LoadQueryString()
+        {
+            string parameterValue = String.Empty;
+            object moduleComponent = (object)this;
+            ParameterAttribute parameterAttribute = null;
+            PropertyInfo[] properties = null;
+            string moduleParametersKey = String.Format(Constants.ModuleConfig.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
+
+            if(!_cacheEngine.GetCacheObject(moduleParametersKey, out properties))
+                properties = _cacheEngine.SetCacheObject(moduleParametersKey, moduleComponent.GetType().GetProperties());
+
+            if(properties == null)
+            {
+                return;
+            }
+                
+            // Select all properties which have parameterattributes
+            foreach(PropertyInfo property in properties)
+            {
+                if(!property.CanRead)
+                {
+                    continue;
+                }
+
+                parameterAttribute = property.GetCustomAttribute(typeof(ParameterAttribute), false) as ParameterAttribute;
+
+                if(parameterAttribute == null)
+                {
+                    continue;
+                }
+
+                parameterValue = HttpContext.Request.Query[parameterAttribute.Name];
+
+                if(String.IsNullOrEmpty(parameterValue))
+                {
+                    continue;
+                }
+
+                property.SetValue((object) this, Convert.ChangeType(parameterValue,property.PropertyType), (object[]) null);
+            }
         }
     }
 } 
