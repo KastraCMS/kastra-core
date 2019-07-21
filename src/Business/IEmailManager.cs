@@ -16,7 +16,7 @@ namespace Kastra.Core.Business
         /// </summary>
         /// <param name="keyname">Mail template keyname</param>
         /// <returns>Mail template</returns>
-        TemplateInfo GetMailTemplate(string keyname);
+        MailTemplateInfo GetMailTemplate(string keyname);
 
         /// <summary>
         /// Get all mail templates.
