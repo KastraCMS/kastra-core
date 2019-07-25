@@ -27,5 +27,15 @@ namespace Kastra.Core.Business
         /// Installs the default permissions.
         /// </summary>
         void InstallDefaultPermissions();
+
+        /// <summary>
+        /// Installs the default parameters.
+        /// </summary>
+        void InstallDefaultParameters();
+
+        /// <summary>
+        /// Install the default mail templates.
+        /// </summary>
+        void InstallDefaultMailTemplates();
     }
 }

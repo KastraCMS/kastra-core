@@ -5,6 +5,7 @@
  */
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Kastra.Core.Dto;
 
 namespace Kastra.Core.Business
@@ -38,5 +39,30 @@ namespace Kastra.Core.Business
         /// Delete a mail template.
         /// </summary>
         void DeleteMailTemplate(string keyname);
+
+        /// <summary>
+        /// Replace all keys with values in the template. 
+        /// </summary>
+        /// <param name="template">Template</param>
+        /// <param name="data">The keys with the values to replace in the template.</param>
+        /// <returns></returns>
+        string Format(string template, Dictionary<string, string> data);
+
+        /// <summary>
+        /// Send an mail by using a mail template.
+        /// </summary>
+        /// <param name="email">Receiver email.</param>
+        /// <param name="templateName">Template name.</param>
+        /// <param name="data">Data to replace in the mail body or title.</param>
+        /// <returns></returns>
+        Task SendEmailAsync(string email, string templateName, Dictionary<string, string> data);
+
+        /// <summary>
+        /// Send an mail by using a mail template.
+        /// </summary>
+        /// <param name="email">Receiver email.</param>
+        /// <param name="templateName">Template name.</param>
+        /// <param name="data">Data to replace in the mail body or title.</param>
+        void SendEmail(string email, string templateName, Dictionary<string, string> data);
     }
 }

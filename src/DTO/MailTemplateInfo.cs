@@ -21,9 +21,15 @@ namespace Kastra.Core.Dto
         public string Keyname { get; set; }
 
         /// <summary>
-        /// Mail template value.
+        /// Subject value.
         /// </summary>
         /// <value></value>
-        public string Value { get; set; }
+        public string Subject { get; set; }
+
+        /// <summary>
+        /// Message value.
+        /// </summary>
+        /// <value></value>
+        public string Message { get; set; }
     }
 }
