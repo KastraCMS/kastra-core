@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
-    <ReleaseVersion>0.9.18</ReleaseVersion>
-    <VersionPrefix>0.9.18</VersionPrefix>
+    <ReleaseVersion>0.9.19</ReleaseVersion>
+    <VersionPrefix>0.9.19</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <PackageVersion>0.9.18</PackageVersion>
+    <PackageVersion>0.9.19</PackageVersion>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
