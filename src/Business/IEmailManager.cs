@@ -28,7 +28,7 @@ namespace Kastra.Core.Business
         /// <summary>
         /// Add a mail template.
         /// </summary>
-        void AddMailTemplate(string keyname, string value);
+        void AddMailTemplate(string keyname, string subject, string message);
         
         /// <summary>
         /// Update a mail template.
