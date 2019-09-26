@@ -14,7 +14,7 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .net core 3.0 (preview)'
+  displayName: 'Install .net core 3.0'
   inputs:
     packageType: sdk
     version: '3.0.x'
