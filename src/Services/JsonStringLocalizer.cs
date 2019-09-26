@@ -20,8 +20,8 @@ namespace Kastra.Core.Services
     public class JsonStringLocalizer<T> : IStringLocalizer<T> where T : class
     {
         private readonly IConfiguration _configuration;
-
-        public JsonStringLocalizer(IHostingEnvironment app, IViewManager viewManager)
+        
+        public JsonStringLocalizer(IWebHostEnvironment app, IViewManager viewManager)
         {
             string objectNamespace = typeof(T).Namespace;
             string resourceName = typeof(T).Name;
