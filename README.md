@@ -6,7 +6,7 @@
 
 ## Requirements
 
-* .NET Core 2.1.12
+* .NET Core 3.0
 
 ## Installation
 
