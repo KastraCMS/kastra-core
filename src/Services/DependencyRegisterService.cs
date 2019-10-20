@@ -5,19 +5,19 @@
  */
 
 using System;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Kastra.Core.Services;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Kastra.Core.Modules;
+using Kastra.Core.Configuration;
 
-namespace Kastra.Core
+namespace Kastra.Core.Services
 {
     public static class DependencyRegisterService
     {

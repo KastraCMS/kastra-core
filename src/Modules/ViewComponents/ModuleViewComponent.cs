@@ -10,49 +10,54 @@ using System.Threading.Tasks;
 using Kastra.Core.Attributes;
 using Kastra.Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using System.Collections.Generic;
 using System.Linq;
 using Kastra.Core.Dto;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using static Kastra.Core.Constants;
 
-namespace Kastra.Core.ViewComponents
+namespace Kastra.Core.Modules.ViewComponents
 {
+    /// <summary>
+    /// Allow to create a module.
+    /// </summary>
     public class ModuleViewComponent: ViewComponent
     {
         #region Properties
         
-        public ModuleInfo Module { get { return _module; } }
-        
-        public PageInfo Page { get { return _page; } }
-
         public string Action { get { return _action; } }
-
+        
         public CacheEngine CacheEngine { get { return _cacheEngine; } }
+
+        public ModuleInfo Module { get { return _module; } }
+
+        public PageInfo Page { get { return _page; } }
         
         #endregion
         
         #region Private members
         
-        private ModuleInfo _module = null;
-        private PageInfo _page = null;
-        private string _action = null;
-        private CacheEngine _cacheEngine = null;
+        private string _action;
+        private CacheEngine _cacheEngine;
+        private ModuleInfo _module;
+        private PageInfo _page;
+
         private IEnumerable<PermissionInfo> _requiredClaims { get; set; }
 
         #endregion
 
         public async Task<IViewComponentResult> InvokeAsync(ModuleDataComponent data)
         {
-            _module = data.Module;
-            _page = data.Page;
             _action = data.ModuleAction;
             _cacheEngine = data.CacheEngine;
+            _module = data.Module;
+            _page = data.Page;
             _requiredClaims = data.RequiredClaims;
 
             // Check module rights
             if (!HasRequiredClaim() || !ValidViewComponentRights())
             {
-                return Content(String.Empty);
+                return Content(string.Empty);
             }
 
             if(HttpContext.Request.QueryString.HasValue)
@@ -62,11 +67,11 @@ namespace Kastra.Core.ViewComponents
 
             switch(data.ModuleAction)
             {
-                case Constants.ModuleActions.Add:
+                case ModuleActions.Add:
                     return await OnViewComponentLoad();
-                case Constants.ModuleActions.Update:
+                case ModuleActions.Update:
                     return await OnViewComponentUpdate();
-                case Constants.ModuleActions.Delete:
+                case ModuleActions.Delete:
                     return await OnViewComponentDelete();
                 default:
                     return await OnViewComponentLoad();
@@ -77,12 +82,9 @@ namespace Kastra.Core.ViewComponents
         /// Returns a result which will render the default module view.
         /// </summary>
         /// <returns></returns>
-        public ViewViewComponentResult ModuleView()
+        public ModuleViewComponentResult ModuleView()
         {
-            string viewPath = String.Format("{0}{1}/Views/{2}.cshtml",
-                                            Constants.SiteConfig.DefaultModulesPath, _module.ModuleDefinition.Path, Constants.SiteConfig.DefaultModuleViewName);
-            
-            return View(viewPath);
+            return ModuleView(null, ViewData.Model);
         }
         
         /// <summary>
@@ -90,12 +92,9 @@ namespace Kastra.Core.ViewComponents
         /// </summary>
         /// <param name="viewName"></param>
         /// <returns></returns>
-        public ViewViewComponentResult ModuleView(string viewName)
+        public ModuleViewComponentResult ModuleView(string viewName)
         {
-            string viewPath = String.Format("{0}{1}/Views/{2}.cshtml",
-                                            Constants.SiteConfig.DefaultModulesPath, _module.ModuleDefinition.Path, viewName);
-            
-            return View(viewPath);
+            return ModuleView(viewName, ViewData.Model);
         }
         
         /// <summary>
@@ -105,25 +104,29 @@ namespace Kastra.Core.ViewComponents
         /// <param name="model"></param>
         /// <typeparam name="TModel"></typeparam>
         /// <returns></returns>
-        public ViewViewComponentResult ModuleView<TModel> (string viewName, TModel model)
-        {
-            string viewPath = null;
-            
-            if(String.IsNullOrEmpty(viewPath))
+        public ModuleViewComponentResult ModuleView<TModel> (string viewName, TModel model)
+        {   
+            if(string.IsNullOrEmpty(viewName))
             {
-                viewPath = Constants.SiteConfig.DefaultModuleViewName;
+                viewName = SiteConfig.DefaultModuleViewName;
             }
-            
-            viewPath = String.Format("{0}{1}/Views/{2}.cshtml", Constants.SiteConfig.DefaultModulesPath, _module.ModuleDefinition.Path, viewName);
-            
-            return View(viewPath, model);
+
+            ViewDataDictionary viewData = new ViewDataDictionary<TModel>(ViewData, model);
+
+            return new ModuleViewComponentResult
+            {
+                ModuleDefinitionPath = _module.ModuleDefinition.Path,
+                ViewEngine = ViewEngine,
+                ViewName = viewName,
+                ViewData = viewData
+            };
         }
         
         /// <summary>
         /// Returns a result which will render the default component view.
         /// </summary>
         /// <returns></returns>
-        public virtual Task<ViewViewComponentResult> OnViewComponentLoad()
+        public virtual Task<ModuleViewComponentResult> OnViewComponentLoad()
         {
             throw new NotImplementedException();
         }
@@ -132,7 +135,7 @@ namespace Kastra.Core.ViewComponents
         /// Returns a result which will render the module view for an update action.
         /// </summary>
         /// <returns></returns>
-        public virtual Task<ViewViewComponentResult> OnViewComponentUpdate()
+        public virtual Task<ModuleViewComponentResult> OnViewComponentUpdate()
         {
             throw new NotImplementedException();
         }
@@ -141,7 +144,7 @@ namespace Kastra.Core.ViewComponents
         /// Returns a result which will render the module view for a delete action.
         /// </summary>
         /// <returns></returns>
-        public virtual Task<ViewViewComponentResult> OnViewComponentDelete()
+        public virtual Task<ModuleViewComponentResult> OnViewComponentDelete()
         {
             throw new NotImplementedException();
         }
@@ -150,9 +153,9 @@ namespace Kastra.Core.ViewComponents
         /// Has the required claim.
         /// </summary>
         /// <returns><c>true</c>, if required claim was hased, <c>false</c> otherwise.</returns>
-        public Boolean HasRequiredClaim()
+        public bool HasRequiredClaim()
         {
-            Int32 requiredPermissionId = 0;
+            int requiredPermissionId = 0;
 
             if (_requiredClaims == null)
             {
@@ -161,9 +164,9 @@ namespace Kastra.Core.ViewComponents
 
             foreach(PermissionInfo permission in _requiredClaims)
             {
-				if (permission.Name == Constants.ModuleConfig.GrantedAccessPermission
-                    || (UserClaimsPrincipal.HasClaim(v => v.Type == Constants.ModuleConfig.ModulePermissionType 
-                                                        && Int32.TryParse(v.Value, out requiredPermissionId) 
+				if (permission.Name == ModuleConfig.GrantedAccessPermission
+                    || (UserClaimsPrincipal.HasClaim(v => v.Type == ModuleConfig.ModulePermissionType 
+                                                        && int.TryParse(v.Value, out requiredPermissionId) 
                                                         && requiredPermissionId == permission.PermissionId)))
 				{
 					return true;
@@ -181,9 +184,10 @@ namespace Kastra.Core.ViewComponents
         {
             string[] claims = null;
             string[] roles = null;
+
             IEnumerable<ViewComponentAuthorizeAttribute> attributes = this.GetType().GetCustomAttributes<ViewComponentAuthorizeAttribute>();
 
-            if(attributes == null || !attributes.Any())
+            if(!attributes.Any())
             {
                 return true;
             }
@@ -225,11 +229,12 @@ namespace Kastra.Core.ViewComponents
         /// </summary>
         private void LoadQueryString()
         {
-            string parameterValue = String.Empty;
+            string parameterValue;
             object moduleComponent = (object)this;
-            ParameterAttribute parameterAttribute = null;
-            PropertyInfo[] properties = null;
-            string moduleParametersKey = String.Format(Constants.ModuleConfig.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
+            ParameterAttribute parameterAttribute;
+            PropertyInfo[] properties;
+
+            string moduleParametersKey = string.Format(ModuleConfig.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
 
             if(!_cacheEngine.GetCacheObject(moduleParametersKey, out properties))
                 properties = _cacheEngine.SetCacheObject(moduleParametersKey, moduleComponent.GetType().GetProperties());
@@ -256,7 +261,7 @@ namespace Kastra.Core.ViewComponents
 
                 parameterValue = HttpContext.Request.Query[parameterAttribute.Name];
 
-                if(String.IsNullOrEmpty(parameterValue))
+                if(string.IsNullOrEmpty(parameterValue))
                 {
                     continue;
                 }

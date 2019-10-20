@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using Kastra.Core.Configuration;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Kastra.Core

@@ -7,7 +7,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kastra.Core
+namespace Kastra.Core.Modules
 {
     public interface IDependencyRegister
     {

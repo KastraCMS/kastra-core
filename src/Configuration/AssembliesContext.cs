@@ -8,15 +8,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Kastra.Core.Modules;
 
-namespace Kastra.Core
+namespace Kastra.Core.Configuration
 {
     public class KastraAssembliesContext
     {
         #region Properties
 
-        private static Dictionary<String, Assembly> _assemblies = new Dictionary<String, Assembly>();
-        public Dictionary<String, Assembly> Assemblies
+        private static Dictionary<string, Assembly> _assemblies = new Dictionary<string, Assembly>();
+        public Dictionary<string, Assembly> Assemblies
         {
             get 
             {
@@ -24,7 +25,7 @@ namespace Kastra.Core
             }
         }
 
-        private static KastraAssembliesContext _instance = null;
+        private static KastraAssembliesContext _instance;
         public static KastraAssembliesContext Instance
         {
             get

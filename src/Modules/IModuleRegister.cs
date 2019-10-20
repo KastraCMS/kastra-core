@@ -7,7 +7,7 @@
 using System;
 using Kastra.Core.Business;
 
-namespace Kastra.Core
+namespace Kastra.Core.Modules
 {
     public interface IModuleRegister
     {

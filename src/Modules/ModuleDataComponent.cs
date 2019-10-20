@@ -8,15 +8,38 @@ using System.Collections.Generic;
 using Kastra.Core.Dto;
 using Kastra.Core.Services;
 
-namespace Kastra.Core.ViewComponents
+namespace Kastra.Core.Modules
 {
     public class ModuleDataComponent
     {
+        /// <summary>
+        /// Module view component name.
+        /// </summary>
         public string ModuleViewComponent { get; set; }
+
+        /// <summary>
+        /// Module action.
+        /// </summary>
         public string ModuleAction { get; set; }
+
+        /// <summary>
+        /// Module information object.
+        /// </summary>
         public ModuleInfo Module { get; set; }
+
+        /// <summary>
+        /// Page information object.
+        /// </summary>
         public PageInfo Page { get; set; }
+
+        /// <summary>
+        /// Cache engine.
+        /// </summary>
         public CacheEngine CacheEngine { get; set; }
+
+        /// <summary>
+        /// Required claims to display the view component.
+        /// </summary>
         public IList<PermissionInfo> RequiredClaims { get; set; }
     }
 }

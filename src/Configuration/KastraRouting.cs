@@ -8,35 +8,35 @@ using System;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 
-namespace Kastra.Core
+namespace Kastra.Core.Configuration
 {
     public static class KastraRouting
     {
         /// <summary>
-        /// Adds the default routes.
+        /// Adds the default endpoints.
         /// </summary>
-        /// <param name="routeBuilder">Route builder.</param>
+        /// <param name="endpoints">Endpoint route builder.</param>
         /// <param name="defaultController">Default controller.</param>
         /// <param name="defaultAdminController">Default admin controller.</param>
-        public static void AddDefaultRoutes(this IRouteBuilder routeBuilder, String defaultController, String defaultAdminController)
+        public static void AddDefaultEndpoints(this IEndpointRouteBuilder endpoints, String defaultController, String defaultAdminController)
         {
-            if(!String.IsNullOrEmpty(defaultController))
+            if (!String.IsNullOrEmpty(defaultController))
             {
-                routeBuilder.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: $"{{controller={defaultController}}}/{{action=Home}}/{{id?}}");
+                    pattern: $"{{controller={defaultController}}}/{{action=Home}}/{{id?}}");
 
-                routeBuilder.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "ModuleRoute",
-                    template: $"{defaultController}/{{pa}}/{{mid}}/{{mc}}/{{ma?}}",
+                    pattern: $"{defaultController}/{{pa}}/{{mid}}/{{mc}}/{{ma?}}",
                     defaults: new { controller = defaultController, action = "Index" });
             }
 
-            if(!String.IsNullOrEmpty(defaultAdminController))
+            if (!String.IsNullOrEmpty(defaultAdminController))
             {
-                routeBuilder.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "AdminModuleRoute",
-                    template: $"{defaultAdminController}/settings/{{mid}}/{{mc}}/{{ma?}}",
+                    pattern: $"{defaultAdminController}/settings/{{mid}}/{{mc}}/{{ma?}}",
                     defaults: new { controller = defaultAdminController, action = "Settings" });
             }
         }

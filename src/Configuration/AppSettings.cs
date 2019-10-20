@@ -4,7 +4,7 @@
  * the license and the contributors participating to this project.
  */
 
-namespace Kastra.Core
+namespace Kastra.Core.Configuration
 {
     /// <summary>
     /// Default app settings for a Kastra website.

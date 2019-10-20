@@ -9,7 +9,7 @@ using Kastra.Core.Business;
 using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kastra.Core.Controllers
+namespace Kastra.Core.Modules.Controllers
 {
     public class ModuleController : Controller
     {

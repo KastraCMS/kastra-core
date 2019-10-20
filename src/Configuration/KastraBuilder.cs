@@ -10,7 +10,7 @@ using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.FileProviders;
 
-namespace Kastra.Core
+namespace Kastra.Core.Configuration
 {
     public static class KastraBuilder
     {

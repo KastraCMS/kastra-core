@@ -8,13 +8,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
-namespace Kastra.Core
+namespace Kastra.Core.Modules
 {
     public class ModuleBase : IDependencyRegister, IModuleRegister
     {
@@ -35,7 +35,7 @@ namespace Kastra.Core
             }
 
             string configJson = File.ReadAllText(path);
-            dynamic dynamicObject = JsonConvert.DeserializeObject<dynamic>(configJson);
+            dynamic dynamicObject = JsonSerializer.Deserialize<dynamic>(configJson);
 
             if(dynamicObject.Modules == null)
             {

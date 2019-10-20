@@ -7,17 +7,18 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using Kastra.Core.Modules.ViewComponents;
 using Microsoft.AspNetCore.Http;
 
-namespace Kastra.Core.ViewComponents
+namespace Kastra.Core.Modules
 {
     public class ModuleModelBinder
     {
         #region Model properties
 
-        private bool _validForm = false;
-        public bool ValidForm { get{ return _validForm; } }
-
+        /// <summary>
+        /// Module ID.
+        /// </summary>
         private int _currentModuleId = 0;
         public int CurrentModuleId { get { return _currentModuleId; } } 
 
@@ -44,7 +45,7 @@ namespace Kastra.Core.ViewComponents
             string obj = null; 
             TypeConverter typeConverter = null;
 
-            if(form == null)
+            if(form is null)
             {
                 return;
             }
@@ -60,14 +61,12 @@ namespace Kastra.Core.ViewComponents
                 
                 typeConverter = TypeDescriptor.GetConverter(property.PropertyType);
                 
-                if(typeConverter == null)
+                if(typeConverter is null)
                 {
                     continue;
                 }
 
                 property.SetValue((object) this, typeConverter.ConvertFromString(obj), (object[]) null);
-
-                _validForm = true;
             }
         }
 
@@ -77,13 +76,12 @@ namespace Kastra.Core.ViewComponents
         /// <param name="moduleView">Module view.</param>
         internal void LoadModuleInfo(ModuleViewComponent moduleView)
         {
-            if(moduleView == null || moduleView.Module == null)
+            if(moduleView is null || moduleView.Module is null)
             {
                 return;
             }
 
             _currentModuleId = moduleView.Module.ModuleId;
         }
-
     }
 }
