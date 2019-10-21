@@ -2,11 +2,11 @@
 
 ### The core library to build a Kastra website.
 
-[![Build Status](https://kastra.visualstudio.com/_apis/public/build/definitions/1268a989-cd48-4170-99de-66c576a8bf1e/2/badge )](https://kastra.visualstudio.com/Kastra.Core/_build/index?definitionId=2)
+[![Build Status](https://kastra.visualstudio.com/Kastra.Core/_apis/build/status/KastraCMS.kastra-core?branchName=master)](https://kastra.visualstudio.com/Kastra.Core/_build/latest?definitionId=4&branchName=master)
 
 ## Requirements
 
-* .NET Core 2.1.12
+* .NET Core 3.0
 
 ## Installation
 
