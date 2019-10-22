@@ -12,7 +12,6 @@ namespace Kastra.Core
         {
             public const string PageTemplatePath = "/Views/Template/";
             public const string DefaultPageTemplateKeyName = "DefaultTemplate";
-            public const string DefaultPageTemplatePath  = "Kastra.Web.Models.Template";
             public const string DefaultModulesPath = "~/Modules/";
             public const string DefaultModuleViewName = "Index";
             public const string DefaultModuleResourcesPath = "mres";
@@ -24,7 +23,7 @@ namespace Kastra.Core
         public class ModuleConfig
         {
             public const string DefaultModuleKeyName = "Default";
-            public const string DefaultModuleFullName = "Kastra.Core.Default.Default";
+            public const string DefaultModuleFullName = "Kastra.Core.Modules.ViewComponents.Default.Default";
             public const string DefaultModulePath = "Default/Default";
             public const string ModuleCacheKey = "Module_{0}";
             public const string ModuleViewComponentParameters = "Module_ViewComponent_Parameters_{0}";
