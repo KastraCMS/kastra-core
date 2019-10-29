@@ -7,7 +7,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,8 +20,8 @@ namespace Kastra.Core.Modules
 {
     public class ModuleViewComponentResult : IViewComponentResult
     {
-        // {0} is the module name, {1} is the view name, {2} is the component view name.
-        private const string ModulePathFormat = "{0}/Views/{2}";
+        // {0} is the module name, {1} is the component view name.
+        private const string ModulePathFormat = "{0}/Views/{1}";
 
         /// <summary>
         /// Gets or sets the module definition path;
@@ -47,7 +46,7 @@ namespace Kastra.Core.Modules
         /// <summary>
         /// Gets or sets the <see cref="ViewEngine"/>.
         /// </summary>
-        public IViewEngine ViewEngine { get; set; }
+        public IModuleViewEngine ViewEngine { get; set; }
 
         /// <summary>
         /// Locates and renders a view specified by <see cref="ViewName"/>. If <see cref="ViewName"/> is <c>null</c>,
@@ -86,36 +85,21 @@ namespace Kastra.Core.Modules
                 throw new ArgumentNullException(nameof(ModuleDefinitionPath));
             }
 
-            IViewEngine viewEngine = ViewEngine ?? ResolveViewEngine(context);
+            IModuleViewEngine moduleViewEngine = ViewEngine ?? ResolveModuleViewEngine(context);
             ViewContext viewContext = context.ViewContext;
             
             bool isNullOrEmptyViewName = string.IsNullOrEmpty(ViewName);
-
-            ViewEngineResult result = null;
             IEnumerable<string> originalLocations = null;
 
-            if (!isNullOrEmptyViewName)
-            {
-                // If view name was passed in is already a path, the view engine will handle this.
-                string moduleViewPath = Path.Combine(ModuleDefinitionPath, "Views", ViewName);
-                result = viewEngine.GetView(viewContext.ExecutingFilePath, moduleViewPath, isMainPage: false);
-                originalLocations = result.SearchedLocations;
-            }
+            string viewName = isNullOrEmptyViewName ? SiteConfig.DefaultModuleViewName : ViewName;
 
-            if (result == null || !result.Success)
-            {
-                string viewName = isNullOrEmptyViewName ? SiteConfig.DefaultModuleViewName : ViewName;
+            string qualifiedViewName = string.Format(
+                CultureInfo.InvariantCulture,
+                ModulePathFormat,
+                ModuleDefinitionPath,
+                viewName);
 
-                string qualifiedViewName = string.Format(
-                    CultureInfo.InvariantCulture,
-                    ModulePathFormat,
-                    ModuleDefinitionPath,
-                    context.ViewComponentDescriptor.ShortName,
-                    viewName);
-
-                result = viewEngine.FindView(viewContext, qualifiedViewName, isMainPage: false);
-            }
-
+            ViewEngineResult result = moduleViewEngine.FindModuleView(viewContext, qualifiedViewName);
             IView view = result.EnsureSuccessful(originalLocations).View;
 
             using (view as IDisposable)
@@ -130,9 +114,19 @@ namespace Kastra.Core.Modules
             }
         }
 
-        private static IViewEngine ResolveViewEngine(ViewComponentContext context)
+        private static IModuleViewEngine ResolveModuleViewEngine(ViewComponentContext context)
         {
-            return context.ViewContext.HttpContext.RequestServices.GetRequiredService<ICompositeViewEngine>();
+            var viewEngines = context.ViewContext.HttpContext.RequestServices.GetRequiredService<ICompositeViewEngine>().ViewEngines;
+
+            for (int i = 0; i < viewEngines.Count; i++)
+            {
+                if (viewEngines[i] is IModuleViewEngine)
+                {
+                    return viewEngines[i] as IModuleViewEngine;
+                }
+            }
+
+            return null;
         }
 
         public static string NormalizePath(string path)

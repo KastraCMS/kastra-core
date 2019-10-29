@@ -116,7 +116,6 @@ namespace Kastra.Core.Modules.ViewComponents
             return new ModuleViewComponentResult
             {
                 ModuleDefinitionPath = _module.ModuleDefinition.Path,
-                ViewEngine = ViewEngine,
                 ViewName = viewName,
                 ViewData = viewData
             };
