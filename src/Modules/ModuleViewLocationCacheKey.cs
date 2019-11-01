@@ -12,13 +12,10 @@ namespace Kastra.Core.Modules
         /// Initializes a new instance of <see cref="ModuleViewLocationCacheKey"/>.
         /// </summary>
         /// <param name="viewName">The view name or path.</param>
-        /// <param name="modulePath"></param>
         public ModuleViewLocationCacheKey(
-            string viewName,
-            string modulePath)
+            string viewName)
             : this(
                   viewName,
-                  modulePath: modulePath,
                   values: null)
         {
         }
@@ -30,11 +27,9 @@ namespace Kastra.Core.Modules
         /// <param name="values">Values from IViewLocationExpander instances.</param>
         public ModuleViewLocationCacheKey(
             string viewName,
-            string modulePath,
             IReadOnlyDictionary<string, string> values)
         {
             ViewName = viewName;
-            ModulePath = modulePath;
             ViewLocationExpanderValues = values;
         }
 
@@ -42,11 +37,6 @@ namespace Kastra.Core.Modules
         /// Gets the view name.
         /// </summary>
         public string ViewName { get; }
-
-        /// <summary>
-        /// Gets the module path.
-        /// </summary>
-        public string ModulePath { get; }
 
         /// <summary>
         /// Gets the values populated by IViewLocationExpander instances.
@@ -57,11 +47,6 @@ namespace Kastra.Core.Modules
         public bool Equals(ModuleViewLocationCacheKey y)
         {
             if (!string.Equals(ViewName, y.ViewName, StringComparison.Ordinal))
-            {
-                return false;
-            }
-
-            if (!string.Equals(ModulePath, y.ModulePath, StringComparison.Ordinal))
             {
                 return false;
             }
@@ -106,7 +91,6 @@ namespace Kastra.Core.Modules
         {
             var hashCodeCombiner = Microsoft.DotNet.PlatformAbstractions.HashCodeCombiner.Start();
             hashCodeCombiner.Add(ViewName, StringComparer.Ordinal);
-            hashCodeCombiner.Add(ModulePath, StringComparer.Ordinal);
 
             if (ViewLocationExpanderValues != null)
             {

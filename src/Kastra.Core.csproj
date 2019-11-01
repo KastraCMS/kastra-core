@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <Description>Library to build Kastra website</Description>
     <ReleaseVersion>0.9.27</ReleaseVersion>
-    <VersionPrefix>0.9.26</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <PackageVersion>0.9.27</PackageVersion>
@@ -34,6 +33,8 @@
     <Compile Remove="Helpers\IModuleViewComponentHelper.cs" />
     <Compile Remove="Services\JsonViewLocalizer.cs" />
     <Compile Remove="Services\ModuleViewEngine.cs" />
+    <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
+    <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0" />
@@ -45,6 +46,7 @@
     <Folder Include="Configuration\" />
     <Folder Include="Templates\Controllers\" />
     <Folder Include="Modules\Controllers\" />
+    <Folder Include="Modules\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Modules\Resources.Designer.cs">

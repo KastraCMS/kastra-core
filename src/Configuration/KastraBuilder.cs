@@ -4,11 +4,16 @@
  * the license and the contributors participating to this project.
  */
 
+using System;
 using System.IO;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
+using Kastra.Core.Modules.Configuration;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace Kastra.Core.Configuration
 {
@@ -37,6 +42,33 @@ namespace Kastra.Core.Configuration
             }
 
             return app;
+        }
+
+        /// <summary>
+        /// Adds the de
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddKastraModule(this IMvcBuilder builder)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            AddKastraServices(builder.Services);
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds the Kastra default services.
+        /// </summary>
+        /// <param name="services"></param>
+        internal static void AddKastraServices(IServiceCollection services)
+        {
+            services.TryAddEnumerable(
+                ServiceDescriptor.Transient<IConfigureOptions<ModuleViewEngineOptions>, ModuleViewEngineOptionsSetup>());
         }
     }
 }

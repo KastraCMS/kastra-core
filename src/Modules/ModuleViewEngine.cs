@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.Encodings.Web;
+using Kastra.Core.Modules.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -23,7 +24,6 @@ namespace Kastra.Core.Modules
     public class ModuleViewEngine : RazorViewEngine, IModuleViewEngine
     {
         public const string ModuleKey = "module";
-        public const string ModulePathFormat = "/Modules/{0}.cshtml";
         public static readonly string ModuleViewExtension = ".cshtml";
 
         private static readonly TimeSpan _cacheExpirationDuration = TimeSpan.FromMinutes(20);
@@ -31,18 +31,19 @@ namespace Kastra.Core.Modules
         private readonly IRazorPageFactoryProvider _pageFactory;
         private readonly IRazorPageActivator _pageActivator;
         private readonly HtmlEncoder _htmlEncoder;
-        private readonly RazorViewEngineOptions _options;
+        private readonly ModuleViewEngineOptions _options;
         private readonly DiagnosticListener _diagnosticListener;
 
         public ModuleViewEngine(IRazorPageFactoryProvider pageFactory,
             IRazorPageActivator pageActivator,
             HtmlEncoder htmlEncoder,
             IOptions<RazorViewEngineOptions> optionsAccessor,
+            IOptions<ModuleViewEngineOptions> moduleOptionsAccessor,
             ILoggerFactory loggerFactory,
             DiagnosticListener diagnosticListener)
             : base(pageFactory, pageActivator, htmlEncoder, optionsAccessor, loggerFactory, diagnosticListener)
         {
-            _options = optionsAccessor.Value;
+            _options = moduleOptionsAccessor.Value;
             _pageFactory = pageFactory;
             _pageActivator = pageActivator;
             _htmlEncoder = htmlEncoder;
@@ -124,26 +125,19 @@ namespace Kastra.Core.Modules
 
         private ModuleViewLocationCacheResult LocatePageFromViewLocations(
             ActionContext actionContext,
-            string pageName)
+            string moduleViewName)
         {
-            string razorPageName = null;
-            if (actionContext.ActionDescriptor.RouteValues.ContainsKey(ModuleKey))
-            {
-                // Only calculate the Razor Page name if "module" is registered in RouteValues.
-                razorPageName = GetNormalizedRouteValue(actionContext, ModuleKey);
-            }
-
             var expanderContext = new ViewLocationExpanderContext(
                 actionContext,
-                pageName,
+                moduleViewName,
                 null,
                 null,
-                razorPageName,
+                null,
                 false);
 
             Dictionary<string, string> expanderValues = null;
 
-            var expanders = _options.ViewLocationExpanders;
+            var expanders = _options.ModuleViewLocationExpanders;
             var expandersCount = expanders.Count;
 
             if (expandersCount > 0)
@@ -159,7 +153,6 @@ namespace Kastra.Core.Modules
 
             var cacheKey = new ModuleViewLocationCacheKey(
                 expanderContext.ViewName,
-                null,
                 expanderValues);
 
             if (!ViewLookupCache.TryGetValue(cacheKey, out ModuleViewLocationCacheResult cacheResult))
@@ -222,8 +215,8 @@ namespace Kastra.Core.Modules
             ViewLocationExpanderContext expanderContext,
             ModuleViewLocationCacheKey cacheKey)
         {
-            IList<string> viewLocations = _options.ViewLocationFormats;
-            viewLocations.Insert(0, ModulePathFormat);
+            IList<string> viewLocations = _options.ModuleViewLocationFormats;
+
 
             ModuleViewLocationCacheResult cacheResult = null;
             List<string> searchedLocations = new List<string>();
