@@ -8,13 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Kastra.Core.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
-using static Kastra.Core.Constants;
 
 namespace Kastra.Core.Modules
 {
@@ -91,7 +91,7 @@ namespace Kastra.Core.Modules
             bool isNullOrEmptyViewName = string.IsNullOrEmpty(ViewName);
             IEnumerable<string> originalLocations = null;
 
-            string viewName = isNullOrEmptyViewName ? SiteConfig.DefaultModuleViewName : ViewName;
+            string viewName = isNullOrEmptyViewName ? SiteConfiguration.DefaultModuleViewName : ViewName;
 
             string qualifiedViewName = string.Format(
                 CultureInfo.InvariantCulture,

@@ -4,6 +4,8 @@
  * the license and the contributors participating to this project.
  */
 
+using Kastra.Core.Constants;
+
 namespace Kastra.Core.Configuration
 {
     /// <summary>
@@ -26,8 +28,8 @@ namespace Kastra.Core.Configuration
         public bool DevelopmentMode { get; set; }
         public string BusinessDllPath { get; set; }
         public string DALDllPath { get; set; }
-        public string ModuleDirectoryPath { get; set; } = Constants.ModuleConfig.ModuleRootDirectory;
-        public string FileDirectoryPath { get; set; } = Constants.SiteConfig.DefaultFileDirectoryPath;
+        public string ModuleDirectoryPath { get; set; } = ModuleConfiguration.ModuleRootDirectory;
+        public string FileDirectoryPath { get; set; } = SiteConfiguration.DefaultFileDirectoryPath;
         public bool EnableDatabaseUpdate { get; set; }
     }
 

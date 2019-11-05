@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using static Kastra.Core.Constants;
+using Kastra.Core.Constants;
 
 namespace Kastra.Core.Modules.ViewComponents
 {
@@ -108,7 +108,7 @@ namespace Kastra.Core.Modules.ViewComponents
         {   
             if(string.IsNullOrEmpty(viewName))
             {
-                viewName = SiteConfig.DefaultModuleViewName;
+                viewName = SiteConfiguration.DefaultModuleViewName;
             }
 
             ViewDataDictionary viewData = new ViewDataDictionary<TModel>(ViewData, model);
@@ -163,8 +163,8 @@ namespace Kastra.Core.Modules.ViewComponents
 
             foreach(PermissionInfo permission in _requiredClaims)
             {
-				if (permission.Name == ModuleConfig.GrantedAccessPermission
-                    || (UserClaimsPrincipal.HasClaim(v => v.Type == ModuleConfig.ModulePermissionType 
+				if (permission.Name == ModuleConfiguration.GrantedAccessPermission
+                    || (UserClaimsPrincipal.HasClaim(v => v.Type == ModuleConfiguration.ModulePermissionType 
                                                         && int.TryParse(v.Value, out requiredPermissionId) 
                                                         && requiredPermissionId == permission.PermissionId)))
 				{
@@ -233,7 +233,7 @@ namespace Kastra.Core.Modules.ViewComponents
             ParameterAttribute parameterAttribute;
             PropertyInfo[] properties;
 
-            string moduleParametersKey = string.Format(ModuleConfig.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
+            string moduleParametersKey = string.Format(ModuleConfiguration.ModuleViewComponentParameters, moduleComponent.GetType().FullName);
 
             if(!_cacheEngine.GetCacheObject(moduleParametersKey, out properties))
                 properties = _cacheEngine.SetCacheObject(moduleParametersKey, moduleComponent.GetType().GetProperties());

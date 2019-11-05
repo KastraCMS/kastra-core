@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kastra.Core.Constants;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Kastra.Core.Services
@@ -58,7 +59,7 @@ namespace Kastra.Core.Services
         /// </summary>
         public void ClearSiteConfig()
         {
-            _memoryCache.Remove(Constants.SiteConfig.SiteConfigCacheKey);
+            _memoryCache.Remove(SiteConfiguration.SiteConfigCacheKey);
         }
 
         #endregion

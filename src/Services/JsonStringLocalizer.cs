@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Kastra.Core.Business;
+using Kastra.Core.Constants;
 using Kastra.Core.Dto;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ namespace Kastra.Core.Services
             if (objectNamespace.ToLower().Contains("module"))
             {
                 ModuleDefinitionInfo moduleDefinition = viewManager.GetModuleDefsList().SingleOrDefault();
-                string modulePath = Path.Combine(app.ContentRootPath, Constants.ModuleConfig.ModuleRootDirectory, moduleDefinition.Path, "Resources");
+                string modulePath = Path.Combine(app.ContentRootPath, ModuleConfiguration.ModuleRootDirectory, moduleDefinition.Path, "Resources");
                 configurationBuilder.SetBasePath(modulePath);
             }
             else

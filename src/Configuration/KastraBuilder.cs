@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using Kastra.Core.Business;
+using Kastra.Core.Constants;
 using Kastra.Core.Dto;
 using Kastra.Core.Modules.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -23,7 +24,7 @@ namespace Kastra.Core.Configuration
             this IApplicationBuilder app, 
             IViewManager viewManager, 
             string moduleDirectoryPath, 
-            string virtualModuleDirectoryPath = Constants.SiteConfig.DefaultModuleResourcesPath)
+            string virtualModuleDirectoryPath = SiteConfiguration.DefaultModuleResourcesPath)
         {
             string path = null;
 

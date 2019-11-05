@@ -4,6 +4,7 @@
  * the license and the contributors participating to this project.
  */
 
+using Kastra.Core.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Kastra.Core.Dto
@@ -80,7 +81,7 @@ namespace Kastra.Core.Dto
         /// Gets or sets the website theme.
         /// </summary>
         /// <value>The theme</value>
-        public string Theme { get; set; } = Constants.SiteConfig.DefaultTheme;
+        public string Theme { get; set; } = SiteConfiguration.DefaultTheme;
 
         #region Password
 

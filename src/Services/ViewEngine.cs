@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Kastra.Core.Configuration;
+using Kastra.Core.Constants;
 using Kastra.Core.Dto;
 using Kastra.Core.Modules;
-using static Kastra.Core.Constants;
 
 namespace Kastra.Core.Services
 {
@@ -63,7 +63,7 @@ namespace Kastra.Core.Services
 
             TemplateInfo template = _page.PageTemplate;
 
-            string templateCacheKey = string.Format(TemplateConfig.TemplateModelTypeCacheKey, _page.PageId, moduleControlKeyName, moduleId, moduleAction);
+            string templateCacheKey = string.Format(TemplateConfiguration.TemplateModelTypeCacheKey, _page.PageId, moduleControlKeyName, moduleId, moduleAction);
 
             // Instanciate the template model
             if (_cacheEngine.GetCacheObject(templateCacheKey, out model))
@@ -214,7 +214,7 @@ namespace Kastra.Core.Services
         {
             if (string.IsNullOrEmpty(nameSpace) || string.IsNullOrEmpty(name))
             {
-                return ModuleConfig.DefaultModuleFullName;
+                return ModuleConfiguration.DefaultModuleFullName;
             }
 
             return $"{nameSpace}.{name}";

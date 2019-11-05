@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kastra.Core", "src/Kastra.Core.csproj", "{85B99A51-98DC-4068-A0AC-3F263CF6148E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kastra.Core", "src\Kastra.Core.csproj", "{85B99A51-98DC-4068-A0AC-3F263CF6148E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

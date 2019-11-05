@@ -5,11 +5,11 @@
  */
 
 using Kastra.Core.Business;
+using Kastra.Core.Constants;
 using Kastra.Core.Dto;
 using Kastra.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
-using static Kastra.Core.Constants;
 
 namespace Kastra.Core.Templates.Controllers
 {
@@ -72,7 +72,7 @@ namespace Kastra.Core.Templates.Controllers
             ViewBag.Title = string.IsNullOrEmpty(page.Title) ? siteConfiguration.Title : page.Title;
 
             // Set theme
-            ViewBag.Theme = siteConfiguration.Theme ?? SiteConfig.DefaultTheme;
+            ViewBag.Theme = siteConfiguration.Theme ?? SiteConfiguration.DefaultTheme;
 
             // Set page SEO
             ViewBag.MetaDescription = string.IsNullOrEmpty(page.MetaDescription) ? siteConfiguration.Description : page.MetaDescription;
