@@ -8,11 +8,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json;
 using Kastra.Core.Business;
 using Kastra.Core.Dto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Kastra.Core.Modules
 {
@@ -35,9 +35,9 @@ namespace Kastra.Core.Modules
             }
 
             string configJson = File.ReadAllText(path);
-            dynamic dynamicObject = JsonSerializer.Deserialize<dynamic>(configJson);
+            dynamic dynamicObject = JsonConvert.DeserializeObject<dynamic>(configJson);
 
-            if(dynamicObject.Modules == null)
+            if (dynamicObject.Modules == null)
             {
                 return;
             }
