@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
-    <ReleaseVersion>0.9.29</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <PackageVersion>0.9.29</PackageVersion>
+    <ReleaseVersion>0.9.30</ReleaseVersion>
+    <PackageVersion>0.9.30</PackageVersion>
+    <Version>0.9.30</Version>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -18,7 +19,8 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <NeutralLanguage>C#</NeutralLanguage>
     <PackageTags>.NET, Core, CMS</PackageTags>
-    <PackageIconUrl>https://www.kastra.net/images/logo.svg</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,8 +38,8 @@
     <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\" />
@@ -58,5 +60,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
