@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <ReleaseVersion>0.9.30</ReleaseVersion>
-    <PackageVersion>0.9.30</PackageVersion>
+    <ReleaseVersion>0.9.31</ReleaseVersion>
+    <PackageVersion>0.9.31</PackageVersion>
     <Version>0.9.30</Version>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -19,7 +19,6 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <NeutralLanguage>C#</NeutralLanguage>
     <PackageTags>.NET, Core, CMS</PackageTags>
-    <PackageIconUrl></PackageIconUrl>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
