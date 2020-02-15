@@ -122,12 +122,15 @@ namespace Kastra.Core.Modules
             }
 
             // Get module controls
+            string controlKeyName = null;
             ModuleControlInfo cControl = null;
 
             foreach(dynamic control in module.Controls)
             {
+                controlKeyName = control.KeyName.ToString();
+
                 cControl = viewManager.GetModuleControlsList(definitionInfo.ModuleDefId)
-                                .SingleOrDefault(mc => mc.KeyName == control.KeyName);
+                                .SingleOrDefault(mc => mc.KeyName == controlKeyName);
 
                 if(cControl != null)
                 {
