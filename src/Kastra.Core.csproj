@@ -6,7 +6,7 @@
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <ReleaseVersion>0.9.31</ReleaseVersion>
     <PackageVersion>0.9.31</PackageVersion>
-    <Version>0.9.30</Version>
+    <Version>0.9.31</Version>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -37,8 +37,8 @@
     <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.4" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\" />
