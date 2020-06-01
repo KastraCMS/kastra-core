@@ -31,6 +31,7 @@ namespace Kastra.Core.Configuration
         public string ModuleDirectoryPath { get; set; } = ModuleConfiguration.ModuleRootDirectory;
         public string FileDirectoryPath { get; set; } = SiteConfiguration.DefaultFileDirectoryPath;
         public bool EnableDatabaseUpdate { get; set; }
+        public bool HasDefaultFallback { get; set; }
     }
 
     public class Cors

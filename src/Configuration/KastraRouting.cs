@@ -4,7 +4,6 @@
  * the license and the contributors participating to this project.
  */
 
-using System;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 
@@ -18,9 +17,11 @@ namespace Kastra.Core.Configuration
         /// <param name="endpoints">Endpoint route builder.</param>
         /// <param name="defaultController">Default controller.</param>
         /// <param name="defaultAdminController">Default admin controller.</param>
-        public static void AddDefaultEndpoints(this IEndpointRouteBuilder endpoints, String defaultController, String defaultAdminController)
+        public static void AddDefaultEndpoints(this IEndpointRouteBuilder endpoints, string defaultController, string defaultAdminController, bool hasDefaultFallback = false)
         {
-            if (!String.IsNullOrEmpty(defaultController))
+            bool hasDefaultController = !string.IsNullOrEmpty(defaultController);
+
+            if (hasDefaultController)
             {
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -32,12 +33,17 @@ namespace Kastra.Core.Configuration
                     defaults: new { controller = defaultController, action = "Index" });
             }
 
-            if (!String.IsNullOrEmpty(defaultAdminController))
+            if (!string.IsNullOrEmpty(defaultAdminController))
             {
                 endpoints.MapControllerRoute(
                     name: "AdminModuleRoute",
                     pattern: $"{defaultAdminController}/settings/{{mid}}/{{mc}}/{{ma?}}",
                     defaults: new { controller = defaultAdminController, action = "Settings" });
+            }
+
+            if (hasDefaultController && hasDefaultFallback)
+            {
+                endpoints.MapFallbackToController("Index", defaultController);
             }
         }
     }
