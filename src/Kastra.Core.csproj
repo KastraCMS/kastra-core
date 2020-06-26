@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Description>Library to build Kastra website</Description>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <ReleaseVersion>0.9.32</ReleaseVersion>
-    <PackageVersion>0.9.32</PackageVersion>
-    <Version>0.9.32</Version>
+    <ReleaseVersion>0.9.33</ReleaseVersion>
+    <PackageVersion>0.9.33</PackageVersion>
+    <Version>0.9.33</Version>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
