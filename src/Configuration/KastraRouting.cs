@@ -43,7 +43,7 @@ namespace Kastra.Core.Configuration
 
             if (hasDefaultController && hasDefaultFallback)
             {
-                endpoints.MapFallbackToController("Index", defaultController);
+                endpoints.MapFallbackToController("Home", defaultController);
             }
         }
     }
