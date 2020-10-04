@@ -17,10 +17,12 @@ namespace Kastra.Core.Configuration
         {
             Configuration = new Configuration();
 			Cors = new Cors();
+            HCaptcha = new HCaptcha();
         }
 
         public Configuration Configuration { get; set; }
 		public Cors Cors { get; set; }
+        public HCaptcha HCaptcha { get; set; }
     }
 
     public class Configuration
@@ -40,4 +42,10 @@ namespace Kastra.Core.Configuration
 		public bool AllowAnyOrigin { get; set; }
 		public string Origins { get; set; }
 	}
+
+    public class HCaptcha
+    {
+        public bool EnableHCaptcha { get; set; }
+        public string Secret { get; set; }
+    }
 }
