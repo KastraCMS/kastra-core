@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Description>Core library for Kastra web application.</Description>
+    <Version>2.0.0.0</Version>
+    <Authors>Baptiste Coppéré</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Owners>Baptiste Coppéré</Owners>
+    <PackageProjectUrl>http://www.kastra.net</PackageProjectUrl>
+    <Summary>Library to build Kastra website</Summary>
+    <Title>Kastra.Core</Title>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>Kastra.Core</PackageId>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage></NeutralLanguage>
+    <PackageTags>.NET, Core, CMS</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright />
+    <RepositoryUrl>https://github.com/KastraCMS/kastra-core</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Compile Remove="DirectoryLoader.cs" />
+    <Compile Remove="Helpers\UrlHelper.cs" />
+    <Compile Remove="TagHelpers\ActionLinkHelper.cs" />
+    <Compile Remove="Helpers\IModuleViewComponentHelper.cs" />
+    <Compile Remove="Services\JsonViewLocalizer.cs" />
+    <Compile Remove="Services\ModuleViewEngine.cs" />
+    <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
+    <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Kastra.Core.Utils" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\" />
+    <Folder Include="Modules\ViewComponents\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Templates\Controllers\" />
+    <Folder Include="Modules\Controllers\" />
+    <Folder Include="Modules\Configuration\" />
+    <Folder Include="Constants\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
