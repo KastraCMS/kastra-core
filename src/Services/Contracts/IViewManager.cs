@@ -6,9 +6,9 @@
 
 using System;
 using System.Collections.Generic;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 
-namespace Kastra.Core.Business
+namespace Kastra.Core.Services.Contracts
 {
     public interface IViewManager
     {

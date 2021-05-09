@@ -34,6 +34,11 @@ namespace Kastra.Core.Constants
         public const string ModuleRootDirectory = "Modules";
 
         /// <summary>
+        /// Default module content folder.
+        /// </summary>
+        public const string ModuleContentFolder = "wwwroot";
+
+        /// <summary>
         /// Module permission type.
         /// </summary>
         public const string ModulePermissionType = "PERMISSION";

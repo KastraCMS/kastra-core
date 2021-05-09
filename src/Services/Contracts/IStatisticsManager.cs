@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using Kastra.Core.DTO;
 
-namespace Kastra.Core.Business
+namespace Kastra.Core.Services.Contracts
 {
     public interface IStatisticsManager
     {
@@ -32,7 +32,7 @@ namespace Kastra.Core.Business
         /// </summary>
         /// <returns>The visits by user identifier.</returns>
         /// <param name="userId">User identifier.</param>
-        IList<VisitorInfo> GetVisitsByUserId(string userId);
+        IList<VisitorInfo> GetVisitsByUserId(Guid userId);
 
         /// <summary>
         /// Gets the visits from date.

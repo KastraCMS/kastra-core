@@ -4,16 +4,17 @@
  * the license and the contributors participating to this project.
  */
 
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kastra.Core.Dto
+namespace Kastra.Core.Identity
 {
-    public class ApplicationRole : IdentityRole
+    public class ApplicationRole : IdentityRole<Guid>
     {
         /// <summary>
         /// Navigation property for the claims this user possesses.
         /// </summary>
-        public virtual ICollection<IdentityRoleClaim<string>> Claims { get; } = new List<IdentityRoleClaim<string>>();
+        public virtual ICollection<IdentityRoleClaim<Guid>> Claims { get; } = new List<IdentityRoleClaim<Guid>>();
     }
 }

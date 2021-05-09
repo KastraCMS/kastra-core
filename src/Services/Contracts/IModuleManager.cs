@@ -6,7 +6,7 @@
 
 using System.Reflection;
 
-namespace Kastra.Core.Business
+namespace Kastra.Core.Services.Contracts
 {
     public interface IModuleManager
     {

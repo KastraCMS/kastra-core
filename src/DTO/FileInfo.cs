@@ -6,7 +6,7 @@
 
 using System;
 
-namespace Kastra.Core.Dto
+namespace Kastra.Core.DTO
 {
 	public class FileInfo
 	{

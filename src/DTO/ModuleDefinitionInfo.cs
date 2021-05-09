@@ -6,7 +6,7 @@
 
 using System.Collections.Generic;
 
-namespace Kastra.Core.Dto
+namespace Kastra.Core.DTO
 {
 	public class ModuleDefinitionInfo
 	{
@@ -25,5 +25,6 @@ namespace Kastra.Core.Dto
 
 		public IList<ModuleControlInfo> ModuleControls { get; set; }
 		public IList<ModuleInfo> Modules { get; set; }
+		public IList<ModuleNavigationInfo> ModuleNavigations { get; set; }
 	}
 }

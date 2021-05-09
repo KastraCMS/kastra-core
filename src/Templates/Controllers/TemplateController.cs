@@ -4,9 +4,9 @@
  * the license and the contributors participating to this project.
  */
 
-using Kastra.Core.Business;
+using Kastra.Core.Services.Contracts;
 using Kastra.Core.Constants;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 using Kastra.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;

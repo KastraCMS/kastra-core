@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Description>Library to build Kastra website</Description>
     <SynchReleaseVersion>false</SynchReleaseVersion>
-    <ReleaseVersion>0.9.34</ReleaseVersion>
-    <PackageVersion>0.9.34</PackageVersion>
-    <Version>0.9.34</Version>
+    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Version>2.0.0.0</Version>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -20,6 +20,7 @@
     <NeutralLanguage>C#</NeutralLanguage>
     <PackageTags>.NET, Core, CMS</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +38,8 @@
     <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Kastra.Core.Utils" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
   </ItemGroup>

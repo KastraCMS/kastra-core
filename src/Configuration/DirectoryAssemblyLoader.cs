@@ -7,11 +7,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using Kastra.Core.Configuration;
-using Microsoft.Extensions.DependencyModel;
+using Kastra.Core.Utils.Extensions;
 
 namespace Kastra.Core
 {
@@ -25,90 +24,59 @@ namespace Kastra.Core
         /// <param name="appSettings">App settings.</param>
         public static void LoadAllAssemblies(AppSettings appSettings)
         {
-            int nbModules = 0;
-            Assembly assembly = null;
-            List<string> dllPaths = null;
-            List<string> moduleDllPaths = null;
+            appSettings.ThrowIfArgumentNull(nameof(appSettings));
 
-            if (appSettings == null)
+            var configuration = appSettings.Configuration;
+            configuration.ThrowIfReferenceNull(nameof(configuration));
+
+            // Load the business dll
+            LoadAssembly($"{_rootPath}/{appSettings.Configuration.BusinessDllPath}");
+
+            // Load the DAL dll
+            LoadAssembly($"{_rootPath}/{appSettings.Configuration.DALDllPath}");
+
+            // Load module dlls
+            IEnumerable<string> moduleDllPaths = GetModulePaths(configuration.ModuleDirectoryPath);
+
+            foreach (string dllPath in moduleDllPaths)
             {
-                throw new ArgumentNullException(nameof(appSettings));
+                LoadAssembly(dllPath);
             }
-
-            if (appSettings.Configuration == null)
-            {
-                throw new NullReferenceException(nameof(appSettings.Configuration));
-            }
-
-            moduleDllPaths = GetModulePaths(appSettings.Configuration.ModuleDirectoryPath)?.ToList();
-
-            if (moduleDllPaths != null)
-            {
-                nbModules = moduleDllPaths.Count;
-            }
-
-            dllPaths = new List<string>(nbModules + 2);
-            dllPaths.Add($"{_rootPath}/{appSettings.Configuration.BusinessDllPath}");
-            dllPaths.Add($"{_rootPath}/{appSettings.Configuration.DALDllPath}");
-            dllPaths.AddRange(moduleDllPaths);
-
-            foreach (string dllPath in dllPaths)
-            {
-				if ((assembly = LoadAssembly(dllPath)) != null)
-                {
-                    KastraAssembliesContext.Instance.AddAssembly(assembly);
-                }
-            }
-
-            // Get Kastra assemblies
-            LoadKastraAssemblies();
         }
 
         /// <summary>
         /// Loads an assembly with a dll path.
         /// </summary>
-        /// <returns>The assembly.</returns>
         /// <param name="dllPath">Dll path.</param>
-        public static Assembly LoadAssembly(string dllPath)
+        /// <returns></returns>
+        public static void LoadAssembly(string dllPath)
         {
             try
             {
-                return AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
+                Assembly assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
+
+                if (assembly is not null)
+                {
+                    KastraAssembliesContext.Instance.AddAssembly(assembly);
+                }
             }
             catch
             {
-                return null;
+                throw new InvalidOperationException($"Assembly cannot be loaded : {dllPath}");
             }
         }
-
 
         #region Private methods
 
         private static IEnumerable<string> GetModulePaths(string moduleDirectory)
         {
+            moduleDirectory.ThrowIfArgumentNull(nameof(moduleDirectory));
+
             string path = $"{_rootPath}/{moduleDirectory}";
 
             return Directory.EnumerateFiles(path, "*.dll", SearchOption.AllDirectories);
         }
 
-		private static void LoadKastraAssemblies()
-		{
-			var dependencies = DependencyContext.Default.RuntimeLibraries;
-			foreach (var library in dependencies)
-			{
-				if (IsCandidateCompilationLibrary(library))
-				{
-					var assembly = Assembly.Load(new AssemblyName(library.Name));
-                    KastraAssembliesContext.Instance.AddAssembly(assembly);
-				}
-			}
-		}
-
-		private static bool IsCandidateCompilationLibrary(RuntimeLibrary compilationLibrary)
-		{
-			return compilationLibrary.Dependencies.Any(d => d.Name.StartsWith("Kastra", StringComparison.Ordinal));
-		}
-       
 		#endregion
 	}
 }

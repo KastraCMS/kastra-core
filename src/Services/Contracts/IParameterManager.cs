@@ -4,9 +4,9 @@
  * the license and the contributors participating to this project.
  */
 
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 
-namespace Kastra.Core.Business
+namespace Kastra.Core.Services.Contracts
 {
 	public interface IParameterManager
 	{

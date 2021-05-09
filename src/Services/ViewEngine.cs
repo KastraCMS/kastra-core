@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using Kastra.Core.Configuration;
 using Kastra.Core.Constants;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 using Kastra.Core.Modules;
 
 namespace Kastra.Core.Services
@@ -51,6 +51,7 @@ namespace Kastra.Core.Services
         {
             object model = null;
             PropertyInfo property = null;
+
             ModuleInfo module = null;
             ModuleControlInfo moduleControl = null;
             ModuleDataComponent moduleData = null;
@@ -63,14 +64,21 @@ namespace Kastra.Core.Services
 
             TemplateInfo template = _page.PageTemplate;
 
-            string templateCacheKey = string.Format(TemplateConfiguration.TemplateModelTypeCacheKey, _page.PageId, moduleControlKeyName, moduleId, moduleAction);
+            // Get the template model in cache
+            string templateCacheKey = string.Format(
+                    TemplateConfiguration.TemplateModelTypeCacheKey, 
+                    _page.PageId, 
+                    moduleControlKeyName, 
+                    moduleId, 
+                    moduleAction
+                );
 
-            // Instanciate the template model
             if (_cacheEngine.GetCacheObject(templateCacheKey, out model))
             {
                 return model;
             }
 
+            // Instanciate the template model
             Type type = KastraAssembliesContext.Instance.GetType(template.ModelClass);
 
             if (type is null)
@@ -93,42 +101,50 @@ namespace Kastra.Core.Services
                     continue;
                 }
 
-                module = place.Modules?.SingleOrDefault(m => !m.IsDisabled && m.PlaceId == place.PlaceId && m.PageId == _page.PageId);
+                module = place.Modules?.SingleOrDefault(m => 
+                        !m.IsDisabled 
+                        && m.PlaceId == place.PlaceId 
+                        && m.PageId == _page.PageId
+                    );
 
-                // If there is not a module and if the place has a static module
-                if (module is null && place.StaticModule != null && !place.StaticModule.IsDisabled)
+                // If there is no module but if the place has a static module
+                if (module is null && place.StaticModule is not null && !place.StaticModule.IsDisabled)
                 {
                     module = place.StaticModule;
                 }
 
                 if(module is null)
                 {
-                    module = new ModuleInfo();
-                    module.Place = place;
-                    module.ModuleDefinition = new ModuleDefinitionInfo();
+                    module = new ModuleInfo()
+                    {
+                        Place = place,
+                        ModuleDefinition = new ModuleDefinitionInfo()
+                    };
                 }
 
-                moduleData = new ModuleDataComponent();
-                moduleData.Module = module;
-                moduleData.Page = _page;
-                moduleData.ModuleAction = moduleAction;
-                moduleData.CacheEngine = _cacheEngine;
+                moduleData = new ModuleDataComponent()
+                {
+                    Module = module,
+                    Page = _page,
+                    ModuleAction = moduleAction,
+                    CacheEngine = _cacheEngine
+                };
 
-                if(module.ModulePermissions != null)
+                if(module.ModulePermissions is not null)
                 {
                     moduleData.RequiredClaims = module.ModulePermissions
-                                                .Where(mp => mp.Permission != null)
-                                                .Select(mp => mp.Permission).ToList();
+                        .Where(mp => mp.Permission != null)
+                        .Select(mp => mp.Permission)
+                        .ToList();
                 }
-                    
 
                 // Get module control
-                if(!string.IsNullOrEmpty(moduleControlKeyName) && moduleId != 0 && module.ModuleId == moduleId)
+                if(!string.IsNullOrEmpty(moduleControlKeyName) && moduleId > 0 && module.ModuleId == moduleId)
                 {
                     moduleControl = module.ModuleDefinition.ModuleControls
-                                      .SingleOrDefault(mc => mc.KeyName.ToLower() == moduleControlKeyName.ToLower());
+                        .SingleOrDefault(mc => mc.KeyName.ToLower() == moduleControlKeyName.ToLower());
                     
-                    if(moduleControl != null)
+                    if(moduleControl is not null)
                     {
                         moduleData.ModuleViewComponent = GetModelFullname(module.ModuleDefinition.Namespace, moduleControl.Path);
                     }
@@ -146,14 +162,13 @@ namespace Kastra.Core.Services
                 property.SetValue(model, moduleData);
             }
 
-			if (type != null)
+			if (type is not null)
             {
                 _cacheEngine.SetCacheObject(templateCacheKey, model);
             }
             
             return model;
         }
-
 
         /// <summary>
         /// Gets the module data by module identifier.
@@ -163,27 +178,34 @@ namespace Kastra.Core.Services
         /// <param name="module">Module.</param>
         /// <param name="moduleControlKeyName">Module control key name.</param>
         /// <param name="moduleAction">Module action.</param>
-        public ModuleDataComponent GetModuleDataByModuleId(PageInfo page, ModuleInfo module, string moduleControlKeyName, string moduleAction)
+        public ModuleDataComponent GetModuleDataByModuleId(
+            PageInfo page, 
+            ModuleInfo module, 
+            string moduleControlKeyName, 
+            string moduleAction)
         {
             ModuleControlInfo moduleControl = null;
-            ModuleDataComponent moduleData = new ModuleDataComponent();
-            moduleData.Module = module;
-            moduleData.Page = page;
-            moduleData.ModuleAction = moduleAction;
-            moduleData.CacheEngine = _cacheEngine;
+            ModuleDataComponent moduleData = new ModuleDataComponent()
+            {
+                Module = module,
+                Page = page,
+                ModuleAction = moduleAction,
+                CacheEngine = _cacheEngine
+            };
 
-			if (module.ModulePermissions != null)
+			if (module.ModulePermissions is not null)
             {
                 moduleData.RequiredClaims = module.ModulePermissions
-                                            .Where(mp => mp.Permission != null)
-                                            .Select(mp => mp.Permission).ToList();
+                    .Where(mp => mp.Permission is not null)
+                    .Select(mp => mp.Permission)
+                    .ToList();
             }
 
             // Get module control
             if(!string.IsNullOrEmpty(moduleControlKeyName) && module != null)
             {
                 moduleControl = module.ModuleDefinition.ModuleControls
-                                        .SingleOrDefault(mc => mc.KeyName.ToLower() == moduleControlKeyName.ToLower());
+                    .SingleOrDefault(mc => mc.KeyName.ToLower() == moduleControlKeyName.ToLower());
                 
                 if(moduleControl != null)
                 {
@@ -201,8 +223,6 @@ namespace Kastra.Core.Services
 
             return moduleData;
         }
-
-
 
         /// <summary>
         /// Gets the module fullname for the view component.

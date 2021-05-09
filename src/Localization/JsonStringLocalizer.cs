@@ -9,14 +9,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Kastra.Core.Business;
+using Kastra.Core.Services.Contracts;
 using Kastra.Core.Constants;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 
-namespace Kastra.Core.Services
+namespace Kastra.Core.Localization
 {
     public class JsonStringLocalizer<T> : IStringLocalizer<T> where T : class
     {

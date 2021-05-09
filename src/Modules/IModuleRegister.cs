@@ -5,7 +5,7 @@
  */
 
 using System;
-using Kastra.Core.Business;
+using Kastra.Core.Services.Contracts;
 
 namespace Kastra.Core.Modules
 {

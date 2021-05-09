@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Kastra.Core.Modules;
+using Kastra.Core.Utils.Extensions;
 
 namespace Kastra.Core.Configuration
 {
@@ -49,8 +50,7 @@ namespace Kastra.Core.Configuration
         /// <param name="assembly">Assembly.</param>
         public void AddAssembly(Assembly assembly)
         {
-            if (assembly == null)
-                return;
+            assembly.ThrowIfArgumentNull(nameof(assembly));
 
             if (_assemblies.ContainsKey(assembly.FullName))
             {
@@ -95,7 +95,7 @@ namespace Kastra.Core.Configuration
 		{
 			Type type = Type.GetType(typeName);
 
-			if (type != null)
+			if (type is not null)
             {
                 return type;
             }

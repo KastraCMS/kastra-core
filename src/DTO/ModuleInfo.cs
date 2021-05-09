@@ -6,7 +6,7 @@
 
 using System.Collections.Generic;
 
-namespace Kastra.Core.Dto
+namespace Kastra.Core.DTO
 {
 	public class ModuleInfo
 	{

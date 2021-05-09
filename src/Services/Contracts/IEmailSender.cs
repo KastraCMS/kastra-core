@@ -6,7 +6,7 @@
 
 using System.Threading.Tasks;
 
-namespace Kastra.Core.Services
+namespace Kastra.Core.Services.Contracts
 {
     public interface IEmailSender
     {

@@ -4,13 +4,16 @@
  * the license and the contributors participating to this project.
  */
 
-using System;
+using System.Collections.Generic;
 using System.IO;
-using Kastra.Core.Business;
+using Kastra.Core.Services.Contracts;
 using Kastra.Core.Constants;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 using Kastra.Core.Modules.Configuration;
+using Kastra.Core.Utils.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
@@ -26,18 +29,34 @@ namespace Kastra.Core.Configuration
             string moduleDirectoryPath, 
             string virtualModuleDirectoryPath = SiteConfiguration.DefaultModuleResourcesPath)
         {
-            string path = null;
+            IList<ModuleDefinitionInfo> modulesDefinitionList = viewManager.GetModuleDefsList();
 
-            foreach (ModuleDefinitionInfo moduleDefinition in viewManager.GetModuleDefsList())
+            if (modulesDefinitionList is null || modulesDefinitionList.Count == 0)
             {
-                path = Path.Combine(Directory.GetCurrentDirectory(), moduleDirectoryPath, moduleDefinition.Path, "res");
+                return app;
+            }
+
+            var extensionProvider = new FileExtensionContentTypeProvider();
+            extensionProvider.Mappings.Add(".dll", "application/octet-stream");
+
+            foreach (ModuleDefinitionInfo moduleDefinition in modulesDefinitionList)
+            {
+                string path = Path.Combine(
+                        Directory.GetCurrentDirectory(), 
+                        moduleDirectoryPath, 
+                        moduleDefinition.Path, 
+                        ModuleConfiguration.ModuleContentFolder
+                    );
 
                 if (Directory.Exists(path))
                 {
+                    string virtualPath = $"/{virtualModuleDirectoryPath}/{moduleDefinition.KeyName}";
+
                     app.UseStaticFiles(new StaticFileOptions
                     {
                         FileProvider = new PhysicalFileProvider(path),
-                        RequestPath = Path.Combine($"/{virtualModuleDirectoryPath}", moduleDefinition.KeyName)
+                        RequestPath = new PathString(virtualPath),
+                        ContentTypeProvider = extensionProvider
                     });
                 }
             }
@@ -52,10 +71,7 @@ namespace Kastra.Core.Configuration
         /// <returns></returns>
         public static IMvcBuilder AddKastraModule(this IMvcBuilder builder)
         {
-            if (builder is null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
+            builder.ThrowIfArgumentNull(nameof(builder));
 
             AddKastraServices(builder.Services);
 

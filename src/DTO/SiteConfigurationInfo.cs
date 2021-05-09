@@ -7,7 +7,7 @@
 using Kastra.Core.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace Kastra.Core.Dto
+namespace Kastra.Core.DTO
 {
     public class SiteConfigurationInfo
     {

@@ -4,7 +4,7 @@
  * the license and the contributors participating to this project.
  */
 
-namespace Kastra.Core.Business
+namespace Kastra.Core.Services.Contracts
 {
     public interface IApplicationManager
     {

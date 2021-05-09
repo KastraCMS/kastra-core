@@ -31,7 +31,7 @@ namespace Kastra.Core.Constants
         /// <summary>
         /// Default path for the resources in a module.
         /// </summary>
-        public const string DefaultModuleResourcesPath = "mres";
+        public const string DefaultModuleResourcesPath = "_module";
 
         /// <summary>
         /// Default cache key for the site configuration.

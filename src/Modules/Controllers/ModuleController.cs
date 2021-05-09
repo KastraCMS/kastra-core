@@ -5,8 +5,8 @@
  */
 
 using System.Linq;
-using Kastra.Core.Business;
-using Kastra.Core.Dto;
+using Kastra.Core.Services.Contracts;
+using Kastra.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kastra.Core.Modules.Controllers

@@ -5,7 +5,7 @@
  */
 
 using System.Collections.Generic;
-using Kastra.Core.Dto;
+using Kastra.Core.DTO;
 using Kastra.Core.Services;
 
 namespace Kastra.Core.Modules
