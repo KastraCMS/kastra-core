@@ -39,6 +39,12 @@ namespace Kastra.Core.Templates.Controllers
             }
 
             PageInfo page = _viewManager.GetPage(pageID, true);
+
+            if (page is null)
+            {
+                return NotFound();
+            }
+
             TemplateInfo template = page.PageTemplate;
             ViewEngine viewEngine = new ViewEngine(page, _cacheEngine);
 
@@ -63,6 +69,12 @@ namespace Kastra.Core.Templates.Controllers
             }
 
             PageInfo page = _viewManager.GetPageByKey(pageKeyName, true);
+
+            if (page is null)
+            {
+                return NotFound();
+            }
+
             TemplateInfo template = page.PageTemplate;
 
             //Get site parameters

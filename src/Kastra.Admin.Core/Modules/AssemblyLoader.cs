@@ -2,8 +2,10 @@
 using Kastra.Core.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
 
 namespace Kastra.Admin.Core.Modules
@@ -46,7 +48,7 @@ namespace Kastra.Admin.Core.Modules
             {
                 var bytes = await http.GetByteArrayAsync(dllUrl);
 
-                return Assembly.Load(bytes);
+                return AssemblyLoadContext.Default.LoadFromStream(new MemoryStream(bytes));
             }
             catch (Exception)
             {

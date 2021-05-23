@@ -162,24 +162,24 @@ namespace Kastra.Core.Services.Contracts
         /// Gets the modules list.
         /// </summary>
         /// <returns>The modules list.</returns>
-        /// <param name="getModuleDefs">If set to <c>true</c> get module defs.</param>
-        IList<ModuleInfo> GetModulesList(bool getModuleDefs = false);
+        /// <param name="includeModuleControls">If set to <c>true</c> get module controls.</param>
+        IList<ModuleInfo> GetModulesList(bool includeModuleControls = false);
 
         /// <summary>
         /// Gets the modules list by place identifier.
         /// </summary>
         /// <returns>The modules list by place identifier.</returns>
         /// <param name="placeId">Place identifier.</param>
-        /// <param name="getModuleDefs">If set to <c>true</c> get module defs.</param>
-        IList<ModuleInfo> GetModulesListByPlaceId(int placeId, bool getModuleDefs = false);
+        /// <param name="includeModulePermissions">If set to <c>true</c> get the module permissions.</param>
+        IList<ModuleInfo> GetModulesListByPlaceId(int placeId, bool includeModulePermissions = false);
 
         /// <summary>
         /// Gets the modules list by page identifier.
         /// </summary>
         /// <returns>The modules list by page identifier.</returns>
         /// <param name="pageId">Page identifier.</param>
-        /// <param name="getModuleDefs">If set to <c>true</c> get module defs.</param>
-        IList<ModuleInfo> GetModulesListByPageId(int pageId, bool getModuleDefs = false);
+        /// <param name="includeModulePermissions">If set to <c>true</c> get the module permissions.</param>
+        IList<ModuleInfo> GetModulesListByPageId(int pageId, bool includeModulePermissions = false);
 
         /// <summary>
         /// Saves the module.
@@ -226,6 +226,38 @@ namespace Kastra.Core.Services.Contracts
         /// <returns><c>true</c>, if module control was deleted, <c>false</c> otherwise.</returns>
         /// <param name="moduleControlId">Module control identifier.</param>
         bool DeleteModuleControl(int moduleControlId);
+
+        #endregion
+
+        #region Module navigation
+
+        /// <summary>
+        /// Gets the module navigation list.
+        /// </summary>
+        /// <returns>The module controls list.</returns>
+        /// <param name="moduleDefinitionId">Module def identifier.</param>
+        IList<ModuleNavigationInfo> GetModuleNavigationList(int moduleDefinitionId);
+
+        /// <summary>
+        /// Gets the module navigation list.
+        /// </summary>
+        /// <returns>The module controls list.</returns>
+        /// <param name="type">Module navigation type</param>
+        IList<ModuleNavigationInfo> GetModuleNavigationListByType(string type);
+
+        /// <summary>
+        /// Saves the module control.
+        /// </summary>
+        /// <returns><c>true</c>, if module control was saved, <c>false</c> otherwise.</returns>
+        /// <param name="moduleNavigation">Module control.</param>
+        bool SaveModuleNavigation(ModuleNavigationInfo moduleNavigation);
+
+        /// <summary>
+        /// Deletes the module navigation.
+        /// </summary>
+        /// <returns><c>true</c>, if module navigation was deleted, <c>false</c> otherwise.</returns>
+        /// <param name="moduleNavigationId">Module navigation identifier.</param>
+        bool DeleteModuleNavigation(int moduleNavigationId);
 
         #endregion
     }

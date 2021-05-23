@@ -49,7 +49,6 @@ namespace Kastra.Core.Services
         /// <param name="moduleAction">Module action.</param>
         public object CreateView(string moduleControlKeyName, int moduleId, string moduleAction)
         {
-            object model = null;
             PropertyInfo property = null;
 
             ModuleInfo module = null;
@@ -73,7 +72,7 @@ namespace Kastra.Core.Services
                     moduleAction
                 );
 
-            if (_cacheEngine.GetCacheObject(templateCacheKey, out model))
+            if (_cacheEngine.GetCacheObject(templateCacheKey, out object model))
             {
                 return model;
             }

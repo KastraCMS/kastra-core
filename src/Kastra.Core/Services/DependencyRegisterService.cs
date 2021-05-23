@@ -27,10 +27,11 @@ namespace Kastra.Core.Services
         /// <param name="services">Services.</param>
         /// <param name="configuration">Configuration.</param>
         /// <param name="assemblies">Assemblies.</param>
-        public static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
+        public static void AddDependencyInjection(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            params Assembly[] assemblies)
         {
-            IDependencyRegister dependancyRegister = null;
-            Type type = null;
             Type serviceType = typeof(IDependencyRegister);
 
             for (int i = 0; i < assemblies.Length; i++)
@@ -39,11 +40,11 @@ namespace Kastra.Core.Services
 
                 for (int j = 0; j < types.Length; j++)
                 {
-                    type = types[j];
+                    Type type = types[j];
 
                     if(serviceType.IsAssignableFrom(type) && !type.GetTypeInfo().IsAbstract)
                     {
-                        dependancyRegister = Activator.CreateInstance(type) as IDependencyRegister;
+                        IDependencyRegister dependancyRegister = Activator.CreateInstance(type) as IDependencyRegister;
                         dependancyRegister.SetDependencyInjections(services, configuration);
                     }
                 }
@@ -81,24 +82,22 @@ namespace Kastra.Core.Services
         public static void ConfigureKastraOptions(this IServiceCollection services)
         {
             // Get site configuration
-            using (ServiceProvider serviceProvider = services.BuildServiceProvider())
+            using ServiceProvider serviceProvider = services.BuildServiceProvider();
+            IParameterManager parameterManager = serviceProvider.GetService<IParameterManager>();
+            SiteConfigurationInfo siteConfiguration = parameterManager.GetSiteConfiguration();
+
+            // Set configuration in identity options
+            services.Configure<IdentityOptions>(options =>
             {
-                IParameterManager parameterManager = serviceProvider.GetService<IParameterManager>();
-                SiteConfigurationInfo siteConfiguration = parameterManager.GetSiteConfiguration();
+                options.SignIn.RequireConfirmedEmail = siteConfiguration.RequireConfirmedEmail;
+            });
 
-                // Set configuration in identity options
-                services.Configure<IdentityOptions>(options =>
-                {
-                    options.SignIn.RequireConfirmedEmail = siteConfiguration.RequireConfirmedEmail;
-                });
-
-                // Set cookie configuration
-                services.Configure<CookiePolicyOptions>(options =>
-                {
-                    options.CheckConsentNeeded = context => siteConfiguration.CheckConsentNeeded;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
-            }
+            // Set cookie configuration
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => siteConfiguration.CheckConsentNeeded;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
         }
     }
 }

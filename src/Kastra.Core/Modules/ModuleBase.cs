@@ -44,7 +44,7 @@ namespace Kastra.Core.Modules
 
             foreach(dynamic module in dynamicObject.Modules)
             {
-                InstallModule(serviceProvider, viewManager, module);
+                InstallModule(viewManager, module);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Kastra.Core.Modules
 
         #region Private methods
 
-        private void InstallModule(IServiceProvider serviceProvider, IViewManager viewManager, dynamic module)
+        private void InstallModule(IViewManager viewManager, dynamic module)
         {
             string keyName = module.Definition.SystemName;
 
@@ -123,29 +123,59 @@ namespace Kastra.Core.Modules
 
             // Get module controls
             string controlKeyName = null;
-            ModuleControlInfo cControl = null;
 
             foreach(dynamic control in module.Controls)
             {
                 controlKeyName = control.KeyName.ToString();
 
-                cControl = viewManager.GetModuleControlsList(definitionInfo.ModuleDefId)
+                ModuleControlInfo cControl = viewManager.GetModuleControlsList(definitionInfo.ModuleDefId)
                                 .SingleOrDefault(mc => mc.KeyName == controlKeyName);
 
-                if(cControl != null)
+                if(cControl is not null)
                 {
                     cControl.Path = control.Path;
+
                     viewManager.SaveModuleControl(cControl);
                 }
                 else
                 {
-                    cControl = new ModuleControlInfo();
-                    cControl.KeyName = control.KeyName;
-                    cControl.Path = control.Path;
-                    cControl.ModuleDefId = definitionInfo.ModuleDefId;
+                    cControl = new ModuleControlInfo()
+                    {
+                        KeyName = control.KeyName,
+                        Path = control.Path,
+                        ModuleDefId = definitionInfo.ModuleDefId
+                    };
 
                     viewManager.SaveModuleControl(cControl);
                 }
+            }
+
+            // Get module navigations
+            foreach (dynamic navigation in module.Navigations)
+            {
+                string navigationUrl = navigation.Url;
+                string navigationType = navigation.Type;
+
+                ModuleNavigationInfo moduleNavigation = viewManager.GetModuleNavigationList(definitionInfo.ModuleDefId)
+                                .SingleOrDefault(n => n.Url == navigationUrl && n.Type == navigationType);
+
+                if (moduleNavigation is not null)
+                {
+                    moduleNavigation.Name = navigation.Name;
+                }
+                else
+                {
+                    moduleNavigation = new ModuleNavigationInfo()
+                    {
+                        Name = navigation.Name,
+                        Url = navigationUrl,
+                        Type = navigationType,
+                        Icon = navigation.Icon,
+                        ModuleDefinitionId = definitionInfo.ModuleDefId
+                    };
+                }
+
+                viewManager.SaveModuleNavigation(moduleNavigation);
             }
         }
 

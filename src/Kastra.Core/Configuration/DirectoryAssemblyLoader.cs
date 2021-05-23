@@ -16,7 +16,7 @@ namespace Kastra.Core
 {
     public static class DirectoryAssemblyLoader
     {
-        private static string _rootPath = Directory.GetCurrentDirectory();
+        private static readonly string _rootPath = Directory.GetCurrentDirectory();
 
         /// <summary>
         /// Loads all assemblies from the application settings.
@@ -29,6 +29,9 @@ namespace Kastra.Core
             var configuration = appSettings.Configuration;
             configuration.ThrowIfReferenceNull(nameof(configuration));
 
+            // Load current assembly
+            KastraAssembliesContext.Instance.AddAssembly(Assembly.GetCallingAssembly());
+
             // Load the business dll
             LoadAssembly($"{_rootPath}/{appSettings.Configuration.BusinessDllPath}");
 
@@ -40,6 +43,11 @@ namespace Kastra.Core
 
             foreach (string dllPath in moduleDllPaths)
             {
+                if (dllPath.Contains("wwwroot"))
+                {
+                    continue;
+                }
+
                 LoadAssembly(dllPath);
             }
         }

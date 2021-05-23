@@ -13,7 +13,6 @@
     <Title>Kastra.Core</Title>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>Kastra.Core</PackageId>
-    <DevelopmentDependency>true</DevelopmentDependency>
     <NeutralLanguage></NeutralLanguage>
     <PackageTags>.NET, Core, CMS</PackageTags>
     <PackageIcon>logo.png</PackageIcon>
