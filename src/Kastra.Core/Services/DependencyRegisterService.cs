@@ -90,6 +90,16 @@ namespace Kastra.Core.Services
             services.Configure<IdentityOptions>(options =>
             {
                 options.SignIn.RequireConfirmedEmail = siteConfiguration.RequireConfirmedEmail;
+
+                options.User.RequireUniqueEmail = siteConfiguration.UserRequireUniqueEmail;
+                options.User.AllowedUserNameCharacters = siteConfiguration.UserAllowedUserNameCharacters;
+                
+                options.Password.RequireDigit = siteConfiguration.PasswordRequireDigit;
+                options.Password.RequiredLength = siteConfiguration.PasswordRequiredLength;
+                options.Password.RequireLowercase = siteConfiguration.PasswordRequireLowercase;
+                options.Password.RequireNonAlphanumeric = siteConfiguration.PasswordRequireNonAlphanumeric;
+                options.Password.RequireUppercase = siteConfiguration.PasswordRequireUppercase;
+                options.Password.RequiredUniqueChars = siteConfiguration.PasswordRequiredUniqueChars;
             });
 
             // Set cookie configuration

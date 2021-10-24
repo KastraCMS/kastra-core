@@ -1,16 +1,8 @@
-﻿using System;
+﻿using Kastra.Admin.Core.Enums;
+using System;
 
-namespace Kastra.Admin.Core.Components
+namespace Kastra.Core.Components
 {
-    public enum ToastEnum
-    {
-        None,
-        Success,
-        Warning,
-        Alert,
-        Info
-    }
-
     public class ToastDefinition
     {
         /// <summary>

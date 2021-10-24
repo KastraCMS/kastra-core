@@ -1,0 +1,78 @@
+﻿@typeparam TData
+@using System.Linq.Expressions
+
+@{
+    int key = 0;
+}
+
+@foreach (var item in Data)
+{
+    string label = LabelFor.Invoke(item);
+    string value = ValueFor.Invoke(item).ToString();
+    bool isChecked = Value.Contains(value);
+    string id = $"{Id}-{key}";
+    key++;
+
+    <div>
+        <input type="checkbox" checked="@isChecked" @onchange="e => OnChange(value, e.Value)" class="form-check-input" id="@id" />
+        <label for="@id" class="form-check-label">@label</label>
+    </div>
+}
+
+@code 
+{
+    [CascadingParameter]
+    private EditContext EditContext { get; set; }
+
+    [Parameter]
+    public EventCallback<IList<string>> ValueChanged { get; set; }
+
+    [Parameter] 
+    public IList<string> Value { get; set; }
+
+    [Parameter]
+    public Expression<Func<IList<string>>> ValueExpression { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public ICollection<TData> Data { get; set; }
+
+    [Parameter]
+    public Func<TData, string> LabelFor { get; set; }
+
+    [Parameter]
+    public Func<TData, object> ValueFor { get; set; }
+
+    private FieldIdentifier _fieldIdentifier;
+
+    protected override void OnInitialized()
+    {
+        _fieldIdentifier = FieldIdentifier.Create(ValueExpression);
+    }
+
+    private async Task OnChange(string selectedItem, object inputValue)
+    {
+        bool isChecked = (bool)inputValue;
+
+        if (isChecked)
+        {
+            if (!Value.Contains(selectedItem))
+            {
+                Value.Add(selectedItem);
+            }
+        }
+        else
+        {
+            if (Value.Contains(selectedItem))
+            {
+                Value.Remove(selectedItem);
+            }
+        }
+
+        await ValueChanged.InvokeAsync(Value);
+        EditContext?.NotifyFieldChanged(_fieldIdentifier);
+        StateHasChanged();
+    }
+}

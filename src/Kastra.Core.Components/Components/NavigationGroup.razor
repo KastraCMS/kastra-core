@@ -1,0 +1,52 @@
+﻿<NavLink type="button" class="nav-link" @onclick="ToggleNavContentMenu">
+    <span class="oi @GetIcon(GroupIcon)" aria-hidden="true"></span>
+    <span class="@LabelClass ml-2">@Label</span>
+</NavLink>
+<ul class="nav flex-column collapse @NavCssClass">
+    @foreach (NavigationModel navigation in NavigationList)
+    {
+        <li class="nav-item pl-4">
+            <NavLink class="nav-link dropdown-item" href="@navigation.Url">
+                <span class="oi @GetIcon(navigation.Icon)" aria-hidden="true"></span>
+                <span class="@LabelClass ml-2">@navigation.Name</span>
+            </NavLink>
+        </li>
+    }
+</ul>
+
+@code
+{
+    [Parameter]
+    public IList<NavigationModel> NavigationList { get; set; }
+
+    [Parameter]
+    public string LabelClass { get; set; }
+    
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public string CurrentPath { get; set; }
+
+    [Parameter]
+    public string GroupIcon { get; set; }
+
+    private bool showNavigation = false;
+
+    private string NavCssClass => showNavigation ? "show" : null;
+
+    private void ToggleNavContentMenu()
+    {
+        showNavigation = !showNavigation;
+    }
+
+    protected override void OnParametersSet()
+    {
+        showNavigation = CurrentPath != null && NavigationList.Any(nav => CurrentPath.StartsWith(nav.Url));
+    }
+
+    private static string GetIcon(string icon)
+    {
+        return icon is not null ? $"oi-{icon}" : "oi-chevron-right";
+    }
+}

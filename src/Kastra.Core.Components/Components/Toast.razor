@@ -1,0 +1,48 @@
+﻿<div class="toast fade @backgroundClass align-items-center text-white @(Definition.IsDisplayed ? "show" : "")">
+    <div class="d-flex">
+        <div class="toast-body"> 
+            @Definition.Message
+        </div>
+        <button type="button" class="btn-close btn-close-white mr-2 m-auto" @onclick="OnHide" aria-label="Close"></button>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public ToastDefinition Definition { get; set; }
+
+    [Parameter]
+    public EventCallback OnHide { get; set; }
+
+    private string backgroundClass = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        backgroundClass = GetBackgroundClass();
+
+        if (Definition.Timer.HasValue)
+        {
+            await Task.Delay(10000);
+            await OnHide.InvokeAsync();
+        }
+    }
+
+    private string GetBackgroundClass()
+    {
+        switch (Definition.Type)
+        {
+            case ToastEnum.Alert:
+                return "bg-danger";
+            case ToastEnum.Info:
+                return "bg-info";
+            case ToastEnum.Success:
+                return "bg-success";
+            case ToastEnum.Warning:
+                return "bg-warning";
+            case ToastEnum.None:
+            default:
+                return string.Empty;
+        }
+    }
+}

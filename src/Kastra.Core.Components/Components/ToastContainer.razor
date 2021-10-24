@@ -1,0 +1,27 @@
+﻿@inherits ConnectedComponent
+
+<div class="toast-container position-absolute top-0 end-0 p-3">
+    @if (Toasts is not null)
+    {
+        @foreach (ToastDefinition toast in Toasts)
+        {
+            <Toast @key="toast" Definition="toast" OnHide="async () => await Remove(toast)" />
+        }
+    }
+</div>
+
+@code {
+
+    [StoreConnector("Notification")]
+    public List<ToastDefinition> Toasts { get; set; }
+
+    public async Task Remove(ToastDefinition toast)
+    {
+        toast.IsDisplayed = false;
+        await Task.Delay(250);
+
+        var newToasts = Toasts.Where(t => t.Id != toast.Id).ToList();
+        StoreAction action = new StoreAction("Notification", "Toasts", newToasts);
+        Dispatch(action);
+    }
+}

@@ -1,0 +1,103 @@
+﻿<div class="modal fade @modalClass" tabindex="-1" aria-labelledby="@Title" aria-hidden="true" style="display:@modalDisplay">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Title</h4>
+                <button type="button" class="btn btn-icon btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Message is not null)
+                {
+                    @Message
+                }
+                else
+                {
+                    @ChildContent
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Close">@CancelLabel</button>
+                <button type="submit" form="@FormId" class="btn btn-primary" @onclick="OnConfirm">@ConfirmLabel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (showBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+    [Parameter]
+    public Action OnConfirm { get; set; }
+
+    [Parameter]
+    public string ConfirmLabel { get; set; }
+
+    [Parameter]
+    public string CancelLabel { get; set; } = "Cancel";
+
+    [Parameter]
+    public string Message { get; set; }
+
+    [Parameter]
+    public string FormId { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    private string modalDisplay = "none;";
+    private string modalClass = "";
+    private bool showBackdrop = false;
+
+    public async Task Open()
+    {
+        modalDisplay = "block;";
+        await Task.Delay(100);
+        modalClass = "show";
+        showBackdrop = true;
+        StateHasChanged();
+    }
+
+    public async Task Close()
+    {
+        modalClass = "";
+        await Task.Delay(250);
+        modalDisplay = "none";
+        showBackdrop = false;
+        StateHasChanged();
+    }
+
+    public void Update(
+        string confirmLabel = null,
+        string title = null,
+        string message = null,
+        Action onConfirm = null
+    ){
+        if (confirmLabel is not null)
+        {
+            ConfirmLabel = confirmLabel;
+        }
+
+        if (title is not null)
+        {
+            Title = title;
+        }
+
+        if (message is not null)
+        {
+            Message = message;
+        }
+
+        if (onConfirm is not null)
+        {
+            OnConfirm = onConfirm;
+        }
+
+        StateHasChanged();
+    }
+}

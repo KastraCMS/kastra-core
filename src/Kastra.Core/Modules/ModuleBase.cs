@@ -79,7 +79,7 @@ namespace Kastra.Core.Modules
                 }
             }
 
-            if(oVersion.Length > nVersion.Length && int.Parse(oVersion[oVersion.Length-1]) > 0)
+            if(oVersion.Length > nVersion.Length && int.Parse(oVersion[^1]) > 0)
             {
                 return false;
             }

@@ -29,6 +29,6 @@ namespace Kastra.Admin.Core.Models
 
         public string Password { get; set; }
 
-        public IList<Guid> Roles { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

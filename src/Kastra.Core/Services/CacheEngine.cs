@@ -14,7 +14,7 @@ namespace Kastra.Core.Services
 {
     public class CacheEngine
     {
-        private const int CACHE_MAX_LENGTH = 1000;
+        private const int CACHE_MAX_LENGTH = 10000;
 
         private readonly IMemoryCache _memoryCache = null;
 
@@ -34,12 +34,20 @@ namespace Kastra.Core.Services
         {
             get
             {
-                if (_options == null)
+                if (_options is null)
                 {
-                    MemoryCacheEntryOptions options = new MemoryCacheEntryOptions()
+                    _options = new MemoryCacheEntryOptions()
                     {
                         SlidingExpiration = TimeSpan.FromHours(2)
                     };
+                    
+                    _options.RegisterPostEvictionCallback((key, value, reason, state) => 
+                    {  
+                        lock (_entries)
+                        {
+                            _entries.Remove(key.ToString());
+                        }
+                    });
                 }
 
                 return _options;
@@ -73,7 +81,7 @@ namespace Kastra.Core.Services
         /// <param name="key">Key.</param>
         /// <param name="cacheObject">Cache object.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public Boolean GetCacheObject<T>(string key, out T cacheObject)
+        public bool GetCacheObject<T>(string key, out T cacheObject)
         {
             if(!IsActivated)
             {
@@ -100,7 +108,11 @@ namespace Kastra.Core.Services
             }
 
             key = key.ToLower();
-            _entries.Add(key);
+
+            lock (_entries)
+            {
+                _entries.Add(key);
+            }
 
             return _memoryCache.Set(key, cacheObject, CacheOptions);
         }
@@ -113,7 +125,10 @@ namespace Kastra.Core.Services
         {
             key = key.ToLower();
 
-            _entries.Remove(key);
+            lock (_entries)
+            {
+                _entries.Remove(key);
+            }
             _memoryCache.Remove(key);
         }
 
@@ -125,7 +140,7 @@ namespace Kastra.Core.Services
         {
             var entriesToDelete = _entries.Where(e => e.Contains(key.ToLower()));
 
-            foreach(String entry in entriesToDelete)
+            foreach(string entry in entriesToDelete)
             {
                 _memoryCache.Remove(entry);
             }
@@ -143,7 +158,10 @@ namespace Kastra.Core.Services
                 _memoryCache.Remove(entry);
             }
 
-            _entries = new List<string>(CACHE_MAX_LENGTH);
+            lock(_entries)
+            {
+                _entries = new List<string>(CACHE_MAX_LENGTH);
+            }
         }
 
         /// <summary>

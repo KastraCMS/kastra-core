@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Kastra.Core.Configuration;
 using Kastra.Core.Utils.Extensions;
+using Serilog;
 
 namespace Kastra.Core
 {
@@ -21,10 +22,12 @@ namespace Kastra.Core
         /// <summary>
         /// Loads all assemblies from the application settings.
         /// </summary>
-        /// <param name="appSettings">App settings.</param>
-        public static void LoadAllAssemblies(AppSettings appSettings)
+        /// <param name="appSettings">Application settings.</param>
+        /// <param name="logger">Logger</param>
+        public static void LoadAllAssemblies(AppSettings appSettings, ILogger logger)
         {
             appSettings.ThrowIfArgumentNull(nameof(appSettings));
+            logger.ThrowIfArgumentNull(nameof(logger));
 
             var configuration = appSettings.Configuration;
             configuration.ThrowIfReferenceNull(nameof(configuration));
@@ -48,7 +51,14 @@ namespace Kastra.Core
                     continue;
                 }
 
-                LoadAssembly(dllPath);
+                try
+                {
+                    LoadAssembly(dllPath);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Assembly cannot be loaded : {dllPath}", dllPath);
+                }
             }
         }
 
@@ -59,18 +69,11 @@ namespace Kastra.Core
         /// <returns></returns>
         public static void LoadAssembly(string dllPath)
         {
-            try
-            {
-                Assembly assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
+            Assembly assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
 
-                if (assembly is not null)
-                {
-                    KastraAssembliesContext.Instance.AddAssembly(assembly);
-                }
-            }
-            catch
+            if (assembly is not null)
             {
-                throw new InvalidOperationException($"Assembly cannot be loaded : {dllPath}");
+                KastraAssembliesContext.Instance.AddAssembly(assembly);
             }
         }
 

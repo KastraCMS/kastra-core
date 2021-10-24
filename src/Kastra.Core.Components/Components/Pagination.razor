@@ -1,0 +1,64 @@
+﻿<div class="container-fluid mt-2 mb-1">
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-icon @(EnableNegativeIndex || index > 0 ? string.Empty : "invisible")" title="Previous" @onclick="Previous">
+            <span class="oi oi-chevron-left" aria-hidden="true"></span>
+        </button>
+        <div class="pagination-numbers">
+            @if (!IsInfinite && index > 0)
+            {
+                <button class="btn btn-icon mx-1" href="" @onclick="Previous">@index</button>
+            }
+            @if (Total > Size)
+            {
+                <span class="btn btn-icon fw-bold mx-1">@(index+1)</span>
+            }
+            @if (((index + 1) * Size) < Total)
+            {
+                <button class="btn btn-icon mx-1" @onclick="(e) => Next(e)">@(index+2)</button>
+            }
+            @if (((index + 2) * Size) < Total)
+            {
+               <button class="btn btn-icon mx-1" @onclick="(e) => Next(e, 2)">@(index+3)</button>
+            }
+        </div>
+        @if ((!EnableNegativeIndex && (IsInfinite || ((index + 1) * Size) < Total)) || (EnableNegativeIndex && index < 0))
+        {
+            <button class="btn btn-icon" title="Next" @onclick="(e) => Next(e)">
+                <span class="oi oi-chevron-right" aria-hidden="true"></span>
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Action<int> Load { get; set; }
+
+    [Parameter]
+    public int Total { get; set; }
+
+    [Parameter]
+    public int Size { get; set; }
+
+    [Parameter]
+    public bool IsInfinite { get; set; }
+    
+    [Parameter]
+    public bool EnableNegativeIndex { get; set; }
+
+    private int index = 0;
+
+    private void Previous(MouseEventArgs e)
+    {
+        index--;
+
+        Load.DynamicInvoke(index);
+    }
+
+    private void Next(MouseEventArgs e, int increment = 1)
+    {
+        index += increment;
+
+        Load.DynamicInvoke(index);
+    }
+}

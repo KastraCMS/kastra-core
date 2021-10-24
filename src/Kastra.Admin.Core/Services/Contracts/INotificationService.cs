@@ -1,4 +1,4 @@
-﻿using Kastra.Admin.Core.Components;
+﻿using Kastra.Admin.Core.Enums;
 
 namespace Kastra.Admin.Core.Services.Contracts
 {
