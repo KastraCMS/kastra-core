@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <Version>2.0.0</Version>
+    <Version>3.0.0</Version>
     <LangVersion>9.0</LangVersion>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/KastraCMS/kastra-core</RepositoryUrl>
@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Flow" Version="1.0.0" />
     <PackageReference Include="Kastra.Admin.Core" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
   </ItemGroup> 
   
 </Project>

@@ -21,7 +21,7 @@ namespace Kastra.Core.Modules.Controllers
             {
                 if(_moduleDefinition == null)
                 {
-                    _moduleDefinition = _viewManager.GetModuleDefsList()
+                    _moduleDefinition = _viewManager.GetModuleDefsListAsync().Result
                                           .SingleOrDefault(m => m.Namespace == this.GetType().Namespace);
                 }
 

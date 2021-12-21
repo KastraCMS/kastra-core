@@ -17,28 +17,28 @@ namespace Kastra.Core.Services.Contracts
         /// </summary>
         /// <param name="keyname">Mail template keyname</param>
         /// <returns>Mail template</returns>
-        MailTemplateInfo GetMailTemplate(string keyname);
+        Task<MailTemplateInfo> GetMailTemplateAsync(string keyname);
 
         /// <summary>
         /// Get all mail templates.
         /// </summary>
         /// <returns></returns>
-        IList<MailTemplateInfo> GetMailTemplates();
+        Task<IList<MailTemplateInfo>> GetMailTemplatesAsync();
 
         /// <summary>
         /// Add a mail template.
         /// </summary>
-        void AddMailTemplate(string keyname, string subject, string message);
+        Task AddMailTemplateAsync(string keyname, string subject, string message);
         
         /// <summary>
         /// Update a mail template.
         /// </summary>
-        void UpdateMailTemplate(MailTemplateInfo mailTemplate);
+        Task UpdateMailTemplateAsync(MailTemplateInfo mailTemplate);
         
         /// <summary>
         /// Delete a mail template.
         /// </summary>
-        void DeleteMailTemplate(string keyname);
+        Task DeleteMailTemplateAsync(string keyname);
 
         /// <summary>
         /// Replace all keys with values in the template. 

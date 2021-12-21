@@ -30,7 +30,7 @@ namespace Kastra.Core.Localization
 
             if (objectNamespace.ToLower().Contains("module"))
             {
-                ModuleDefinitionInfo moduleDefinition = viewManager.GetModuleDefsList().SingleOrDefault();
+                ModuleDefinitionInfo moduleDefinition = viewManager.GetModuleDefsListAsync().Result.SingleOrDefault();
                 string modulePath = Path.Combine(app.ContentRootPath, ModuleConfiguration.ModuleRootDirectory, moduleDefinition.Path, "Resources");
                 configurationBuilder.SetBasePath(modulePath);
             }
@@ -61,7 +61,7 @@ namespace Kastra.Core.Localization
 
                 return new LocalizedString(
                     name,
-                    String.Format(value ?? name, arguments),
+                    string.Format(value ?? name, arguments),
                     value == null
                 );
             }

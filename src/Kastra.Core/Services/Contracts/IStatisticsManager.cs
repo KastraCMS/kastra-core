@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Kastra.Core.DTO;
 
 namespace Kastra.Core.Services.Contracts
@@ -17,7 +18,7 @@ namespace Kastra.Core.Services.Contracts
         /// </summary>
         /// <returns><c>true</c>, if visitor was saved, <c>false</c> otherwise.</returns>
         /// <param name="visitor">Visitor.</param>
-        bool SaveVisitor(VisitorInfo visitor);
+        Task<bool> SaveVisitorAsync(VisitorInfo visitor);
 
         /// <summary>
         /// Counts the visits in a period.
@@ -25,20 +26,20 @@ namespace Kastra.Core.Services.Contracts
         /// <returns>The visits from to.</returns>
         /// <param name="fromDate">From date.</param>
         /// <param name="toDate">To date.</param>
-        int CountVisitsFromTo(DateTime fromDate, DateTime toDate);
+        Task<int> CountVisitsFromToAsync(DateTime fromDate, DateTime toDate);
 
         /// <summary>
         /// Gets the visits by user identifier.
         /// </summary>
         /// <returns>The visits by user identifier.</returns>
         /// <param name="userId">User identifier.</param>
-        IList<VisitorInfo> GetVisitsByUserId(Guid userId);
+        Task<IList<VisitorInfo>> GetVisitsByUserIdAsync(Guid userId);
 
         /// <summary>
         /// Gets the visits from date.
         /// </summary>
         /// <returns>The visits from a date to a date</returns>
         /// <param name="fromDate">From date.</param>
-        IList<VisitorInfo> GetVisitsFromDate(DateTime fromDate, DateTime toDate);
+        Task<IList<VisitorInfo>> GetVisitsFromDateAsync(DateTime fromDate, DateTime toDate);
     }
 }

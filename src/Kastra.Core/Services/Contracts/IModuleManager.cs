@@ -5,6 +5,7 @@
  */
 
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Services.Contracts
 {
@@ -13,23 +14,23 @@ namespace Kastra.Core.Services.Contracts
         /// <summary>
         /// Installs the modules present in the folder modules.
         /// </summary>
-        void InstallModules();
+        Task InstallModulesAsync();
 
         /// <summary>
         /// Uninstalls the modules.
         /// </summary>
-        void UninstallModules();
+        Task UninstallModulesAsync();
 
         /// <summary>
         /// Installs the module.
         /// </summary>
         /// <param name="assembly">Assembly.</param>
-        void InstallModule(Assembly assembly);
+        Task InstallModuleAsync(Assembly assembly);
 
         /// <summary>
         /// Uninstalls the module.
         /// </summary>
         /// <param name="assembly">Assembly.</param>
-        void UninstallModule(Assembly assembly);
+        Task UninstallModuleAsync(Assembly assembly);
     }
 }

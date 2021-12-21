@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Kastra.Core.Modules;
 using Kastra.Core.Configuration;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Services
 {
@@ -79,12 +80,12 @@ namespace Kastra.Core.Services
         /// Configures the kastra options.
         /// </summary>
         /// <param name="services">Services.</param>
-        public static void ConfigureKastraOptions(this IServiceCollection services)
+        public static async Task ConfigureKastraOptions(this IServiceCollection services)
         {
             // Get site configuration
             using ServiceProvider serviceProvider = services.BuildServiceProvider();
             IParameterManager parameterManager = serviceProvider.GetService<IParameterManager>();
-            SiteConfigurationInfo siteConfiguration = parameterManager.GetSiteConfiguration();
+            SiteConfigurationInfo siteConfiguration = await parameterManager.GetSiteConfigurationAsync();
 
             // Set configuration in identity options
             services.Configure<IdentityOptions>(options =>

@@ -5,6 +5,7 @@
  */
 
 using Kastra.Core.DTO;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Services.Contracts
 {
@@ -14,12 +15,12 @@ namespace Kastra.Core.Services.Contracts
         /// Gets the site configuration.
         /// </summary>
         /// <returns>The site configuration.</returns>
-		SiteConfigurationInfo GetSiteConfiguration();
+		Task<SiteConfigurationInfo> GetSiteConfigurationAsync();
 
         /// <summary>
         /// Saves the site configuration.
         /// </summary>
         /// <param name="siteConfiguration">Site configuration.</param>
-		void SaveSiteConfiguration(SiteConfigurationInfo siteConfiguration);
+		Task SaveSiteConfiguration(SiteConfigurationInfo siteConfiguration);
 	}
 }

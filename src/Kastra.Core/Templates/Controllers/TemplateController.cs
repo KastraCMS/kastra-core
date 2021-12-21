@@ -10,6 +10,7 @@ using Kastra.Core.DTO;
 using Kastra.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Templates.Controllers
 {
@@ -31,14 +32,14 @@ namespace Kastra.Core.Templates.Controllers
             _parameterManager = parameterManager;
         }
 
-        public IActionResult Index(int pageID, string moduleControl = "")
+        public async Task<IActionResult> Index(int pageID, string moduleControl = "")
         {
 			if(pageID <= 0)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            PageInfo page = _viewManager.GetPage(pageID, true);
+            PageInfo page = await _viewManager.GetPageAsync(pageID, true);
 
             if (page is null)
             {
@@ -54,21 +55,21 @@ namespace Kastra.Core.Templates.Controllers
         }
 
         [Route("[controller]/{pageKeyName}")]
-        public IActionResult Index(string pageKeyName)
+        public Task<IActionResult> Index(string pageKeyName)
         {
         	return Index(pageKeyName, 0, string.Empty, string.Empty);
         }
 
         [Route("[controller]/{pageKeyName}/{moduleId}/{moduleControl}/{moduleAction?}")]
         [Route("[controller]/{pageKeyName}/mid/{moduleId}/mc/{moduleControl}/ma/{moduleAction?}")]
-        public IActionResult Index(string pageKeyName, int moduleId, string moduleControl, string moduleAction)
+        public async Task<IActionResult> Index(string pageKeyName, int moduleId, string moduleControl, string moduleAction)
         {
 			if(string.IsNullOrEmpty(pageKeyName))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            PageInfo page = _viewManager.GetPageByKey(pageKeyName, true);
+            PageInfo page = await _viewManager.GetPageByKeyAsync(pageKeyName, true);
 
             if (page is null)
             {
@@ -78,7 +79,7 @@ namespace Kastra.Core.Templates.Controllers
             TemplateInfo template = page.PageTemplate;
 
             //Get site parameters
-            SiteConfigurationInfo siteConfiguration = _parameterManager.GetSiteConfiguration();
+            SiteConfigurationInfo siteConfiguration = await _parameterManager.GetSiteConfigurationAsync();
 
 			// Set page title
             ViewBag.Title = string.IsNullOrEmpty(page.Title) ? siteConfiguration.Title : page.Title;

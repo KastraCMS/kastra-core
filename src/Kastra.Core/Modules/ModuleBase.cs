@@ -13,6 +13,7 @@ using Kastra.Core.DTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Modules
 {
@@ -23,7 +24,7 @@ namespace Kastra.Core.Modules
             
         }
 
-        public virtual void Install(IServiceProvider serviceProvider, IViewManager viewManager)
+        public virtual async Task InstallAsync(IServiceProvider serviceProvider, IViewManager viewManager)
         {
             // Get module config json
             Assembly assembly = Assembly.GetCallingAssembly();
@@ -44,13 +45,13 @@ namespace Kastra.Core.Modules
 
             foreach(dynamic module in dynamicObject.Modules)
             {
-                InstallModule(viewManager, module);
+                await InstallModuleAsync(viewManager, module);
             }
         }
 
-        public virtual void Uninstall()
+        public virtual Task UninstallAsync()
         {
-            
+            return Task.CompletedTask;
         }
 
         protected virtual Boolean IsNewOrUpdate(string oldVersion, string newVersion)
@@ -89,11 +90,11 @@ namespace Kastra.Core.Modules
 
         #region Private methods
 
-        private void InstallModule(IViewManager viewManager, dynamic module)
+        private async Task InstallModuleAsync(IViewManager viewManager, dynamic module)
         {
             string keyName = module.Definition.SystemName;
 
-            ModuleDefinitionInfo definitionInfo = viewManager.GetModuleDefsList().SingleOrDefault(md => md.KeyName == keyName);
+            ModuleDefinitionInfo definitionInfo = (await viewManager.GetModuleDefsListAsync()).SingleOrDefault(md => md.KeyName == keyName);
 
             // Check module version
             if(definitionInfo != null && !IsNewOrUpdate(definitionInfo.Version, module.Definition.Version))
@@ -112,9 +113,9 @@ namespace Kastra.Core.Modules
             definitionInfo.Path = module.Definition.Path;
             definitionInfo.Version = module.Definition.Version;
         
-            viewManager.SaveModuleDef(definitionInfo);
+            await viewManager.SaveModuleDefAsync(definitionInfo);
 
-            definitionInfo = viewManager.GetModuleDefsList().SingleOrDefault(md => md.KeyName == keyName);
+            definitionInfo = (await viewManager.GetModuleDefsListAsync()).SingleOrDefault(md => md.KeyName == keyName);
             
             if(definitionInfo.ModuleDefId == 0)
             {
@@ -128,14 +129,14 @@ namespace Kastra.Core.Modules
             {
                 controlKeyName = control.KeyName.ToString();
 
-                ModuleControlInfo cControl = viewManager.GetModuleControlsList(definitionInfo.ModuleDefId)
+                ModuleControlInfo cControl = (await viewManager.GetModuleControlsListAsync(definitionInfo.ModuleDefId))
                                 .SingleOrDefault(mc => mc.KeyName == controlKeyName);
 
                 if(cControl is not null)
                 {
                     cControl.Path = control.Path;
 
-                    viewManager.SaveModuleControl(cControl);
+                    await viewManager.SaveModuleControlAsync(cControl);
                 }
                 else
                 {
@@ -146,7 +147,7 @@ namespace Kastra.Core.Modules
                         ModuleDefId = definitionInfo.ModuleDefId
                     };
 
-                    viewManager.SaveModuleControl(cControl);
+                    await viewManager.SaveModuleControlAsync(cControl);
                 }
             }
 
@@ -156,7 +157,7 @@ namespace Kastra.Core.Modules
                 string navigationUrl = navigation.Url;
                 string navigationType = navigation.Type;
 
-                ModuleNavigationInfo moduleNavigation = viewManager.GetModuleNavigationList(definitionInfo.ModuleDefId)
+                ModuleNavigationInfo moduleNavigation = (await viewManager.GetModuleNavigationListAsync(definitionInfo.ModuleDefId))
                                 .SingleOrDefault(n => n.Url == navigationUrl && n.Type == navigationType);
 
                 if (moduleNavigation is not null)
@@ -175,7 +176,7 @@ namespace Kastra.Core.Modules
                     };
                 }
 
-                viewManager.SaveModuleNavigation(moduleNavigation);
+                await viewManager.SaveModuleNavigationAsync(moduleNavigation);
             }
         }
 

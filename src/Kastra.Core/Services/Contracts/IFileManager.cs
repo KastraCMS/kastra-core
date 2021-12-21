@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Kastra.Core.DTO;
 
 namespace Kastra.Core.Services.Contracts
@@ -17,33 +18,33 @@ namespace Kastra.Core.Services.Contracts
         /// </summary>
         /// <param name="file"></param>
         /// <param name="stream"></param>
-        void AddFile(FileInfo file, System.IO.Stream stream);
+        Task AddFileAsync(FileInfo file, System.IO.Stream stream);
 
         /// <summary>
         /// Get the binary of a file
         /// </summary>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        byte[] DownloadFileByGuid(Guid fileId);
+        Task<byte[]> DownloadFileByGuidAsync(Guid fileId);
         
         /// <summary>
         /// Delete a file
         /// </summary>
         /// <param name="fileId"></param>
-        void DeleteFile(Guid fileId);
+        Task DeleteFileAsync(Guid fileId);
         
         /// <summary>
         /// Get file informations
         /// </summary>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        FileInfo GetFile(Guid fileId);
+        Task<FileInfo> GetFileAsync(Guid fileId);
 
         /// <summary>
         /// Get all files in a directory path
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        IList<FileInfo> GetFilesByPath(string path);
+        Task<IList<FileInfo>> GetFilesByPathAsync(string path);
     }
 }

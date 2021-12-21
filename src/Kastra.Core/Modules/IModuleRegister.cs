@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using Kastra.Core.Services.Contracts;
 
 namespace Kastra.Core.Modules
@@ -17,11 +18,11 @@ namespace Kastra.Core.Modules
         /// <returns>The install.</returns>
         /// <param name="serviceProvider">Service provider.</param>
         /// <param name="viewManager">View manager.</param>
-        void Install(IServiceProvider serviceProvider, IViewManager viewManager);
+        Task InstallAsync(IServiceProvider serviceProvider, IViewManager viewManager);
 
         /// <summary>
         /// Executed when a module is uninstalled.
         /// </summary>
-        void Uninstall();
+        Task UninstallAsync();
     }
 }

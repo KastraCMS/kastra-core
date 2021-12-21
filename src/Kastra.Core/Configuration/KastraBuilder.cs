@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace Kastra.Core.Configuration
 {
@@ -29,7 +30,7 @@ namespace Kastra.Core.Configuration
             string moduleDirectoryPath, 
             string virtualModuleDirectoryPath = SiteConfiguration.DefaultModuleResourcesPath)
         {
-            IList<ModuleDefinitionInfo> modulesDefinitionList = viewManager.GetModuleDefsList();
+            IList<ModuleDefinitionInfo> modulesDefinitionList = viewManager.GetModuleDefsListAsync().Result;
 
             if (modulesDefinitionList is null || modulesDefinitionList.Count == 0)
             {

@@ -4,6 +4,8 @@
  * the license and the contributors participating to this project.
  */
 
+using System.Threading.Tasks;
+
 namespace Kastra.Core.Services.Contracts
 {
     public interface IApplicationManager
@@ -11,31 +13,31 @@ namespace Kastra.Core.Services.Contracts
         /// <summary>
         /// Install a module.
         /// </summary>
-        void Install();
+        Task InstallAsync();
 
         /// <summary>
         /// Installs the default page.
         /// </summary>
-        void InstallDefaultPage();
+        Task InstallDefaultPageAsync();
 
         /// <summary>
         /// Installs the default template.
         /// </summary>
-        void InstallDefaultTemplate();
+        Task InstallDefaultTemplateAsync();
 
         /// <summary>
         /// Installs the default permissions.
         /// </summary>
-        void InstallDefaultPermissions();
+        Task InstallDefaultPermissionsAsync();
 
         /// <summary>
         /// Installs the default parameters.
         /// </summary>
-        void InstallDefaultParameters();
+        Task InstallDefaultParametersAsync();
 
         /// <summary>
         /// Install the default mail templates.
         /// </summary>
-        void InstallDefaultMailTemplates();
+        Task InstallDefaultMailTemplatesAsync();
     }
 }

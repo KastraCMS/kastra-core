@@ -78,9 +78,9 @@ namespace Kastra.Core.Modules
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is ModuleViewLocationCacheKey)
+            if (obj is ModuleViewLocationCacheKey key)
             {
-                return Equals((ModuleViewLocationCacheKey)obj);
+                return Equals(key);
             }
 
             return false;
@@ -89,19 +89,19 @@ namespace Kastra.Core.Modules
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            var hashCodeCombiner = Microsoft.DotNet.PlatformAbstractions.HashCodeCombiner.Start();
-            hashCodeCombiner.Add(ViewName, StringComparer.Ordinal);
+            var hashCode = new HashCode();
+            hashCode.Add(ViewName, StringComparer.Ordinal);
 
             if (ViewLocationExpanderValues != null)
             {
                 foreach (var item in ViewLocationExpanderValues)
                 {
-                    hashCodeCombiner.Add(item.Key, StringComparer.Ordinal);
-                    hashCodeCombiner.Add(item.Value, StringComparer.Ordinal);
+                    hashCode.Add(item.Key, StringComparer.Ordinal);
+                    hashCode.Add(item.Value, StringComparer.Ordinal);
                 }
             }
 
-            return hashCodeCombiner.CombinedHash;
+            return hashCode.ToHashCode();
         }
     }
 }
