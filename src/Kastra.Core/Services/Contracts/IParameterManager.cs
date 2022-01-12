@@ -21,6 +21,6 @@ namespace Kastra.Core.Services.Contracts
         /// Saves the site configuration.
         /// </summary>
         /// <param name="siteConfiguration">Site configuration.</param>
-		Task SaveSiteConfiguration(SiteConfigurationInfo siteConfiguration);
+		Task SaveSiteConfigurationAsync(SiteConfigurationInfo siteConfiguration);
 	}
 }

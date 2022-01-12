@@ -27,7 +27,7 @@ namespace Kastra.Core.Modules
         public virtual async Task InstallAsync(IServiceProvider serviceProvider, IViewManager viewManager)
         {
             // Get module config json
-            Assembly assembly = Assembly.GetCallingAssembly();
+            Assembly assembly = GetType().GetTypeInfo().Assembly;
             string path = $"{Path.GetDirectoryName(assembly.Location)}/../moduleconfig.json";
             
             if(!File.Exists(path))
