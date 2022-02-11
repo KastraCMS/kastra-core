@@ -46,5 +46,12 @@ namespace Kastra.Core.Services.Contracts
         /// <param name="path"></param>
         /// <returns></returns>
         Task<IList<FileInfo>> GetFilesByPathAsync(string path);
+
+        /// <summary>
+        /// Scan a file and return true if the file is clean.
+        /// </summary>
+        /// <param name="fileBytes">File bytes</param>
+        /// <returns>True if the file is clean</returns>
+        Task<bool> ScanFileAsync(byte[] fileBytes);
     }
 }

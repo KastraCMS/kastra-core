@@ -18,11 +18,13 @@ namespace Kastra.Core.Configuration
             Configuration = new Configuration();
 			Cors = new Cors();
             HCaptcha = new HCaptcha();
+            ClamAV = new ClamAV();
         }
 
         public Configuration Configuration { get; set; }
 		public Cors Cors { get; set; }
         public HCaptcha HCaptcha { get; set; }
+        public ClamAV ClamAV { get; set; }
     }
 
     public class Configuration
@@ -47,5 +49,12 @@ namespace Kastra.Core.Configuration
     {
         public bool EnableHCaptcha { get; set; }
         public string Secret { get; set; }
+    }
+
+    public class ClamAV
+    {
+        public bool Enable { get; set; }
+        public string Host { get; set; }
+        public int Port { get; set; }
     }
 }
