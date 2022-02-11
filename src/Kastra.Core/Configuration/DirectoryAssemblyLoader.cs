@@ -36,10 +36,26 @@ namespace Kastra.Core
             KastraAssembliesContext.Instance.AddAssembly(Assembly.GetCallingAssembly());
 
             // Load the business dll
-            LoadAssembly($"{_rootPath}/{appSettings.Configuration.BusinessDllPath}");
+            LoadAssembly($"{_rootPath}/{configuration.BusinessDllPath}");
 
             // Load the DAL dll
-            LoadAssembly($"{_rootPath}/{appSettings.Configuration.DALDllPath}");
+            LoadAssembly($"{_rootPath}/{configuration.DALDllPath}");
+
+            // Load all dependencies
+            if (configuration.Dependencies != null)
+            {
+                foreach (string dependency in configuration.Dependencies)
+                {
+                    try
+                    {
+                        LoadAssembly($"{_rootPath}/{dependency}");
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        logger.Error(ex, "Dependency cannot be loaded : {dependency}", dependency);
+                    }
+                }
+            }
 
             // Load module dlls
             IEnumerable<string> moduleDllPaths = GetModulePaths(configuration.ModuleDirectoryPath);

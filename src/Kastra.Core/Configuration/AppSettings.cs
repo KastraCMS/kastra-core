@@ -32,6 +32,7 @@ namespace Kastra.Core.Configuration
         public bool DevelopmentMode { get; set; }
         public string BusinessDllPath { get; set; }
         public string DALDllPath { get; set; }
+        public string[] Dependencies { get; set; } 
         public string ModuleDirectoryPath { get; set; } = ModuleConfiguration.ModuleRootDirectory;
         public string FileDirectoryPath { get; set; } = SiteConfiguration.DefaultFileDirectoryPath;
         public bool EnableDatabaseUpdate { get; set; }
