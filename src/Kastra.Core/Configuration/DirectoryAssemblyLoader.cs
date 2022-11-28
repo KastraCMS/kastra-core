@@ -15,8 +15,14 @@ using Serilog;
 
 namespace Kastra.Core
 {
+    /// <summary>
+    /// Directory assembly loader
+    /// </summary>
     public static class DirectoryAssemblyLoader
     {
+        /// <summary>
+        /// Curretn directory of the web application
+        /// </summary>
         private static readonly string _rootPath = Directory.GetCurrentDirectory();
 
         /// <summary>
@@ -35,20 +41,22 @@ namespace Kastra.Core
             // Load current assembly
             KastraAssembliesContext.Instance.AddAssembly(Assembly.GetCallingAssembly());
 
+            string libsPath = Path.Combine(_rootPath, configuration.LibraryDirectoryPath);
+            
             // Load the business dll
-            LoadAssembly($"{_rootPath}/{configuration.BusinessDllPath}");
+            LoadAssembly(Path.Combine(libsPath, configuration.BusinessDllPath));
 
             // Load the DAL dll
-            LoadAssembly($"{_rootPath}/{configuration.DALDllPath}");
+            LoadAssembly(Path.Combine(libsPath, configuration.DALDllPath));
 
             // Load all dependencies
-            if (configuration.Dependencies != null)
+            if (configuration.Librairies is not null)
             {
-                foreach (string dependency in configuration.Dependencies)
+                foreach (string dependency in configuration.Librairies)
                 {
                     try
                     {
-                        LoadAssembly($"{_rootPath}/{dependency}");
+                        LoadAssembly(Path.Combine(libsPath, dependency));
                     }
                     catch (FileNotFoundException ex)
                     {
@@ -95,11 +103,16 @@ namespace Kastra.Core
 
         #region Private methods
 
+        /// <summary>
+        /// Get the module paths
+        /// </summary>
+        /// <param name="moduleDirectory">Module directory</param>
+        /// <returns>Module paths</returns>
         private static IEnumerable<string> GetModulePaths(string moduleDirectory)
         {
             moduleDirectory.ThrowIfArgumentNull(nameof(moduleDirectory));
 
-            string path = $"{_rootPath}/{moduleDirectory}";
+            string path = Path.Combine(_rootPath, moduleDirectory);
 
             return Directory.EnumerateFiles(path, "*.dll", SearchOption.AllDirectories);
         }

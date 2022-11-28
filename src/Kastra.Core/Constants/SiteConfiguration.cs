@@ -19,6 +19,11 @@ namespace Kastra.Core.Constants
         public const string DefaultPageTemplateKeyName = "DefaultTemplate";
 
         /// <summary>
+        /// Default library path
+        /// </summary>
+        public const string DefaultLibsPath = "~/Libs/";
+
+        /// <summary>
         /// Default folder path for the modules.
         /// </summary>
         public const string DefaultModulesPath = "~/Modules/";
