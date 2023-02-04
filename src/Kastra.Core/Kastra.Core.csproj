@@ -36,7 +36,6 @@
     <Compile Remove="Modules\Infrastructure\ModuleViewLocationExpander.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Kastra.Core.Utils" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
@@ -56,5 +55,8 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kastra.Core.Utils\Kastra.Core.Utils.csproj" />
   </ItemGroup>
 </Project>
