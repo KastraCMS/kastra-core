@@ -50,9 +50,9 @@ namespace Kastra.Core
             LoadAssembly(Path.Combine(libsPath, configuration.DALDllPath));
 
             // Load all dependencies
-            if (configuration.Librairies is not null)
+            if (configuration.Libraries is not null)
             {
-                foreach (string dependency in configuration.Librairies)
+                foreach (string dependency in configuration.Libraries)
                 {
                     try
                     {
