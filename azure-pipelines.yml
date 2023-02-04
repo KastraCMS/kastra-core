@@ -33,6 +33,13 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '--version-suffix ".$(Rev:r)" -c Release'
+
 - task: NuGetCommand@2
   inputs:
     command: 'push'
