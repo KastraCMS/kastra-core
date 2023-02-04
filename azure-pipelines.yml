@@ -13,29 +13,29 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    projects: '**/*.csproj'
-    command: 'restore'
-    feedsToUse: 'select'
-    vstsFeed: '1268a989-cd48-4170-99de-66c576a8bf1e/773fbe51-e6b4-4d87-90da-996c1a3cb1d5''
+  - task: DotNetCoreCLI@2
+    inputs:
+      projects: '**/*.csproj'
+      command: 'restore'
+      feedsToUse: 'select'
+      vstsFeed: '1268a989-cd48-4170-99de-66c576a8bf1e/773fbe51-e6b4-4d87-90da-996c1a3cb1d5''
 
-- task: DotNetCoreCLI@2
-  inputs:
-    projects: '
-    command: 'build'
-    arguments: '-c Release'
+  - task: DotNetCoreCLI@2
+    inputs:
+      projects: '**/*.csproj'
+      command: 'build'
+      arguments: '-c Release'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'custom'
-    projects: '**/*.csproj'
-    custom: 'pack'
-    arguments: '--version-suffix "alpha"'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'custom'
+      projects: '**/*.csproj'
+      custom: 'pack'
+      arguments: '--version-suffix "alpha"'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '1268a989-cd48-4170-99de-66c576a8bf1e/773fbe51-e6b4-4d87-90da-996c1a3cb1d5'
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: '1268a989-cd48-4170-99de-66c576a8bf1e/773fbe51-e6b4-4d87-90da-996c1a3cb1d5'
