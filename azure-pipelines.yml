@@ -38,7 +38,8 @@ steps:
     command: 'custom'
     projects: '**/*.csproj'
     custom: 'pack'
-    arguments: '--version-suffix ".$(Rev:r)" -c Release'
+    arguments: '--version-suffix ".$(Rev:r)"'
+    configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
   inputs:
