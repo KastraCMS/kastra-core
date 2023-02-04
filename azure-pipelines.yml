@@ -12,6 +12,9 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+workspace:
+  clean: all
+
 steps:
   - task: DotNetCoreCLI@2
     inputs:
