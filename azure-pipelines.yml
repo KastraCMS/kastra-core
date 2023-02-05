@@ -38,7 +38,7 @@ steps:
     command: 'custom'
     projects: '**/*.csproj'
     custom: 'pack'
-    arguments: '--version-suffix $(Build.BuildNumber) -c $(buildConfiguration) -p:StaticWebAssetsEnabled=false -p:PackageLocation="$(build.artifactStagingDirectory)"'
+    arguments: '--version-suffix $(Build.BuildNumber) -c $(buildConfiguration) --output $(build.artifactStagingDirectory) -p:StaticWebAssetsEnabled=false'
     configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
