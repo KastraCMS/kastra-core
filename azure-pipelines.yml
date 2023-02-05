@@ -33,13 +33,13 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: 'custom'
-#     projects: '**/*.csproj'
-#     custom: 'pack'
-#     arguments: '--version-suffix $(Build.BuildNumber) -p:StaticWebAssetsEnabled=false'
-#     configuration: '$(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '--version-suffix $(Build.BuildNumber) -p:StaticWebAssetsEnabled=false'
+    configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
   inputs:
