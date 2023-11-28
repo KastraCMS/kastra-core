@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.IO;
+﻿using System.IO;
 
 namespace Kastra.Core.Utils.Helpers
 {
+    /// <summary>
+    /// Module helpers
+    /// </summary>
     public static class ModuleHelpers
     {
         /// <summary>
@@ -12,13 +14,10 @@ namespace Kastra.Core.Utils.Helpers
         /// <param name="moduleKeyname">Module keyname</param>
         /// <param name="basePath">Base path of the application</param>
         /// <returns></returns>
-        public static PathString GetModuleBinaryPath(
-            string virtualModuleDirectoryPath, 
-            string moduleKeyname, 
-            string basePath = null)
-        {
-            return new PathString($"/{virtualModuleDirectoryPath}/{moduleKeyname}/{basePath}/bin");
-        }
+        public static string GetModuleBinaryPath(
+            string virtualModuleDirectoryPath,
+            string moduleKeyname,
+            string basePath = null) => Path.Combine(virtualModuleDirectoryPath, moduleKeyname, basePath, "bin");
 
         /// <summary>
         /// Get the physical binary directory path of a module.
@@ -30,9 +29,6 @@ namespace Kastra.Core.Utils.Helpers
         public static string GetPhysicalModuleBinaryPath(
             string moduleDirectoryPath,
             string contentDirectoryPath,
-            string basePath = null)
-        {
-            return Path.Combine(moduleDirectoryPath, contentDirectoryPath, basePath, "bin");
-        }
+            string basePath = null) => Path.Combine(moduleDirectoryPath, contentDirectoryPath, basePath, "bin");
     }
 }
