@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>4.0.0</Version>
+    <VersionPrefix>4.0.0</VersionPrefix>
     <Authors>Baptiste Coppéré</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>http://www.kastra.net</PackageProjectUrl>
